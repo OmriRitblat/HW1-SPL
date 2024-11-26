@@ -5,8 +5,7 @@
 using std::string;
 using std::vector;
 
-Settlement::Settlement(const string &name, SettlementType type):name(name){
-    (*this).type=type;
+Settlement::Settlement(const string &name, SettlementType type):name(name),type(type){
 }
  const string& Settlement::getName() const {
     return name;
