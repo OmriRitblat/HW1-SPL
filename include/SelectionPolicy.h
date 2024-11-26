@@ -14,9 +14,10 @@ class SelectionPolicy {
 class NaiveSelection: public SelectionPolicy {
     public:
         NaiveSelection();
+        NaiveSelection(const NaiveSelection &n);
         const FacilityType& selectFacility(const vector<FacilityType>& facilitiesOptions) override;
         const string toString() const override;
-        NaiveSelection *clone() const override;
+        NaiveSelection* clone() const override;
         ~NaiveSelection() override = default;
     private:
         int lastSelectedIndex;
@@ -29,6 +30,7 @@ class BalancedSelection: public SelectionPolicy {
         const string toString() const override;
         BalancedSelection *clone() const override;
         ~BalancedSelection() override = default;
+        BalancedSelection(const BalancedSelection &b);
     private:
         int LifeQualityScore;
         int EconomyScore;
@@ -41,6 +43,7 @@ class EconomySelection: public SelectionPolicy {
         const FacilityType& selectFacility(const vector<FacilityType>& facilitiesOptions) override;
         const string toString() const override;
         EconomySelection *clone() const override;
+        EconomySelection(const EconomySelection &e);
         ~EconomySelection() override = default;
     private:
         int lastSelectedIndex;
@@ -54,6 +57,7 @@ class SustainabilitySelection: public SelectionPolicy {
         const string toString() const override;
         SustainabilitySelection *clone() const override;
         ~SustainabilitySelection() override = default;
+        SustainabilitySelection(const SustainabilitySelection &s);
     private:
         int lastSelectedIndex;
 };
