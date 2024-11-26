@@ -24,3 +24,14 @@ const string Settlement:: toString() const{
         t="METROPOLIS";
     return "Settlement Name: " + name + "Settlement Type: " + t;
 }
+
+const int Settlement::maxPacilities() const{
+    int maxPacil=0;
+    if(type==SettlementType::CITY)
+        maxPacil=2;
+    else if(type==SettlementType::VILLAGE)
+        maxPacil=1;
+    else if(type==SettlementType::METROPOLIS)
+        maxPacil=3;
+    return maxPacil;
+}
