@@ -10,7 +10,7 @@ int main(int argc, char** argv){
     string s("adad");
     SettlementType t = SettlementType::CITY;;
     Settlement r (s, t);
-    cout << r.toString() << endl;
+    // cout << r.toString() << endl;
     if(argc!=2){
         cout << "usage: simulation <config_path>" << endl;
         return 0;
