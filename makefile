@@ -3,7 +3,7 @@ all: compile main
 
 # Rule to link the object files and create the executable
 main: 
-	g++ -o bin/main bin/*.o
+	g++ bin/*.o -o bin/main
 	./bin/main
 
 # Rule to compile the source files into object files
@@ -15,3 +15,5 @@ compile:
 .PHONY: clean
 clean:
 	rm -f bin/*.o
+
+	
