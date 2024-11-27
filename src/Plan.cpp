@@ -18,7 +18,15 @@ const int Plan::getEnvironmentScore() const
 }
 void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
 {
-    (*this).selectionPolicy = selectionPolicy;
+    if (*selectionPolicy == *(*this).selectionPolicy)
+        cout << "Cannot change selection policy" << endl;
+    else
+    {
+        cout << "plan ID: " << plan_id << endl;
+        cout << "previousPolicy: " << *selectionPolicy << endl;
+        (*this).selectionPolicy = selectionPolicy;
+        cout << "newPolicy: " << *selectionPolicy << endl;
+    }
 }
 // void step();
 void Plan::printStatus()
