@@ -25,7 +25,6 @@ class FacilityType {
         int getEnvironmentScore() const;
         int getEconomyScore() const;
         FacilityCategory getCategory() const;
-        const string getCategoryString() const;
         const string toString() const;
 
     protected:
@@ -50,7 +49,6 @@ class Facility: public FacilityType {
         void setStatus(FacilityStatus status);
         const FacilityStatus& getStatus() const;
         const string toString() const;
-        const string getStatusString() const;
 
     private:
         const string settlementName;
