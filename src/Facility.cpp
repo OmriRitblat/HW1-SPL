@@ -26,10 +26,17 @@ FacilityCategory FacilityType::getCategory() const
 {
     return category;
 }
+const string FacilityType::getCategoryString() const {
+    switch (category) {
+        case FacilityStatus::LIFE_QUALITY: return "LIFE_QUALITY";
+        case FacilityStatus::ECONOMY:   return "ECONOMY";
+        case FacilityStatus::ENVIRONMENT:   return "ENVIRONMENT";
+        default:                     return "Unknown";
+    }
+}
 const string FacilityType::toString() const
 {
-    // return name + " " + FacilityCategory[static_cast<int>(this->FacilityType::getCategory())] + " " + price + " " + lifeQuality_score + " " + economy_score + " " + environment_score;
-    return "to string facil";
+    return "FacilityName: "+name+"/n FacilityCategory: "+getCategoryString(); 
 }
 
 Facility::Facility(const string &name, const string &settlementName, const FacilityCategory category, const int price, const int lifeQuality_score, const int economy_score, const int environment_score) : FacilityType(name, category, price, lifeQuality_score, economy_score, environment_score), settlementName(settlementName), status(FacilityStatus::UNDER_CONSTRUCTIONS), timeLeft(price)
@@ -68,6 +75,14 @@ const FacilityStatus &Facility::getStatus() const
 }
 const string Facility::toString() const
 {
-    // return settlementName+" "+status+" "+timeLeft+" "+(*this).toString()+"";
-    return "hellooo";
+    return "FacilityName: "+name+"/n FacilityStatus: "+getStatusString();
 }
+
+const string Facility::getStatusString() const {
+    switch (status) {
+        case FacilityStatus::UNDER_CONSTRUCTIONS: return "UNDER_CONSTRUCTIONS";
+        case FacilityStatus::OPERATIONAL:   return "OPERATIONAL";
+        default:                     return "Unknown";
+    }
+}
+

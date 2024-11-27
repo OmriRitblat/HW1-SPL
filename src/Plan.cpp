@@ -24,14 +24,26 @@ void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
     {
         cout << "plan ID: " << plan_id << endl;
         cout << "previousPolicy: " << *selectionPolicy << endl;
-        (*this).selectionPolicy = selectionPolicy;
+        //===================================================
+        // update what hapends when changing to balance policy
+        *(*this).selectionPolicy = *selectionPolicy;
         cout << "newPolicy: " << *selectionPolicy << endl;
     }
 }
 // void step();
 void Plan::printStatus()
 {
-    cout << "the plan status is" << PlanStatus << endl;
+    string strStatus;
+    switch (status)
+    {
+    case PlanStatus::AVALIABLE:
+        strStatus = "AVALIABLE";
+    case PlanStatus::BUSY:
+        strStatus = "BUSY";
+    default:
+        strStatus = "Unknown";
+    }
+    cout << "Status" << strStatus << endl;
 }
 const vector<Facility *> &Plan::getFacilities() const
 {
@@ -40,4 +52,33 @@ const vector<Facility *> &Plan::getFacilities() const
 // void Plan::addFacility(Facility *facility)
 // {
 // }
-// const string toString() const;
+const string Plan::toString() const
+{
+    std::ostringstream output;
+    output << "PlanID: " << plan_id << '\n';
+    output << "SettlementName: " << settlement.getName() << '\n';
+    output << "PlanStatus: " << status << '\n';
+    // output << "SelectionPolicy: " << SelectionPolicy.toString() << '\n';
+    output << "LifeQualityScore: " << life_quality_score << '\n';
+    output << "EconomyScore: " << economy_score << '\n';
+    output << "EnvironmentScore: " << environment_score << '\n';
+
+    // Collect facility info and append
+    output << "Facilities:\n"
+           << collectFacilities(underConstruction);
+    return output.str();
+}
+
+// Updated Plan::collectFacilities
+string Plan::collectFacilities(const std::vector<Facility *> &facilities) const
+{
+    std::ostringstream facilityOutput;
+    for (const auto &facility : facilities)
+    {
+        if (facility)
+        { // Ensure pointer is not null
+            facilityOutput << facility->toString() << '\n';
+        }
+    }
+    return facilityOutput.str();
+}
