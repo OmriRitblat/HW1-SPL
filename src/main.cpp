@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Simulation* backup = nullptr;
+// Simulation* backup = nullptr;
 
 int main(int argc, char** argv){
     string s("adad");
@@ -15,7 +15,7 @@ int main(int argc, char** argv){
     cout << r.toString() << endl;
     FacilityCategory fc=FacilityCategory::ECONOMY;
     FacilityType f("adi city",fc,1,2,3,4);
-    cout << f.toString() << endl;
+    // cout << f.toString() << endl;
     Facility newf(f,"s");
     cout << newf.toString() << endl;
     if(argc!=2){
@@ -23,11 +23,11 @@ int main(int argc, char** argv){
         return 0;
     }
     string configurationFile = argv[1];
-    Simulation simulation(configurationFile);
-    simulation.start();
-    if(backup!=nullptr){
-    	delete backup;
-    	backup = nullptr;
-    }
+    // Simulation simulation(configurationFile);
+    // simulation.start();
+    // if(backup!=nullptr){
+    // 	delete backup;
+    // 	backup = nullptr;
+    // }
     return 0;
 }

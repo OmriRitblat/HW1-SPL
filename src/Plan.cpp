@@ -1,9 +1,12 @@
 #include "Plan.h"
 #include <iostream>
+#include <sstream>
 using namespace std;
 
-// Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(facilityOptions), underConstruction(settlement.maxPacilities(), nullptr), life_quality_score(0), economy_score(0), environment_score(0){
-// }
+Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilityOptions(facilityOptions), underConstruction(settlement.maxPacilities(), nullptr), facilities(settlement.maxPacilities(), nullptr), life_quality_score(0), economy_score(0), environment_score(0)
+{
+    setSelectionPolicy(selectionPolicy);
+}
 const int Plan::getlifeQualityScore() const
 {
     return life_quality_score;
@@ -18,20 +21,21 @@ const int Plan::getEnvironmentScore() const
 }
 void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
 {
-    if (*selectionPolicy == *(*this).selectionPolicy)
+    if (selectionPolicy == this->selectionPolicy)
         cout << "Cannot change selection policy" << endl;
     else
     {
         cout << "plan ID: " << plan_id << endl;
-        cout << "previousPolicy: " << *selectionPolicy << endl;
+        cout << "previousPolicy: " << (this->selectionPolicy)->toString() << endl;
         //===================================================
         // update what hapends when changing to balance policy
-        *(*this).selectionPolicy = *selectionPolicy;
-        cout << "newPolicy: " << *selectionPolicy << endl;
+        delete this->selectionPolicy;
+        this->selectionPolicy = selectionPolicy;
+        cout << "newPolicy: " << (this->selectionPolicy)->toString() << endl;
     }
 }
 // void step();
-void Plan::printStatus()
+string Plan::getStatusString() const
 {
     string strStatus;
     switch (status)
@@ -43,7 +47,7 @@ void Plan::printStatus()
     default:
         strStatus = "Unknown";
     }
-    cout << "Status" << strStatus << endl;
+    return "Status" + strStatus;
 }
 const vector<Facility *> &Plan::getFacilities() const
 {
@@ -57,7 +61,7 @@ const string Plan::toString() const
     std::ostringstream output;
     output << "PlanID: " << plan_id << '\n';
     output << "SettlementName: " << settlement.getName() << '\n';
-    output << "PlanStatus: " << status << '\n';
+    output << "PlanStatus: " << this->getStatusString() << '\n';
     // output << "SelectionPolicy: " << SelectionPolicy.toString() << '\n';
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
@@ -65,12 +69,12 @@ const string Plan::toString() const
 
     // Collect facility info and append
     output << "Facilities:\n"
-           << collectFacilities(underConstruction);
+           << this->FacilityToString(this->underConstruction);
     return output.str();
 }
 
 // Updated Plan::collectFacilities
-string Plan::collectFacilities(const std::vector<Facility *> &facilities) const
+const string Plan::FacilityToString(const vector<Facility *> &facilities) const
 {
     std::ostringstream facilityOutput;
     for (const auto &facility : facilities)

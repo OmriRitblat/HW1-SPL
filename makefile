@@ -1,5 +1,5 @@
 # Default target: clean and build main
-all: compile main 
+all: compile main
 
 # Rule to link the object files and create the executable
 main: 
@@ -8,8 +8,12 @@ main:
 
 # Rule to compile the source files into object files
 compile:
+	clear
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/main.o src/main.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude  bin/*.o src/*.cpp
+	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Facility.o src/Facility.cpp
+	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Plan.o src/Plan.cpp
+	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Settlement.o src/Settlement.cpp
+# g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude  bin/*.o src/*.cpp
 
 # Clean the build directory
 .PHONY: clean
