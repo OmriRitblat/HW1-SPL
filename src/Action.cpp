@@ -5,7 +5,20 @@
 #include "Action.h"
 using namespace std;
 
-
+        string BaseAction::getStatusString() const
+        {
+            string strStatus;
+            switch (status)
+            {
+            case ActionStatus::COMPLETED:
+                strStatus = "COMPLETED";
+            case ActionStatus::ERROR:
+                strStatus = "ERROR";
+            default:
+                strStatus = "Unknown";
+            }
+            return "Status: " + strStatus;
+        }
         BaseAction::BaseAction(){}
         BaseAction::BaseAction(string &errorMsg,ActionStatus status):errorMsg(errorMsg),status(status){}
         ActionStatus BaseAction::getStatus() const{
@@ -34,7 +47,7 @@ using namespace std;
             }
         }
         const string SimulateStep::toString() const {
-            return "SimulateStep";
+            return "SimulateStep "+ numOfSteps + BaseAction::getStatusString(getStatus());
         }
         //SimulateStep *clone() const override;
     
@@ -66,7 +79,7 @@ using namespace std;
             }
         }
         const string AddPlan::toString() const{
-            return "AddPlan";
+            return "AddPlan "+ settlementName + selectionPolicy+ policy->toString()+ BaseAction::getStatusString(getStatus());
         }
         //AddPlan *clone() const override;
 
@@ -84,7 +97,7 @@ using namespace std;
         }
         //AddSettlement *clone() const override;
         const string  AddSettlement::toString() const{
-            return " AddSettlement";
+            return "AddSettlement "+ settlementName + settlementType+ BaseAction::getStatusString(getStatus());
         }
 
 
@@ -104,7 +117,7 @@ using namespace std;
         }
         //AddFacility *clone() const override;
         const string AddFacility::toString() const{
-            return "AddFacility";
+            return "AddFacility "+ facilityName + facilityCategory+ price + lifeQualityScore + economyScore + environmentScore+ BaseAction::getStatusString(getStatus());
         }
 
                 PrintPlanStatus::PrintPlanStatus(int planId):BaseAction(),planId(planId){
@@ -120,7 +133,7 @@ using namespace std;
                 }
                // PrintPlanStatus* PrintPlanStatus::clone() const override;
              const string PrintPlanStatus:: toString() const{
-                return "PrintPlanStatus";
+            return "PrintPlanStatus "+ planId + BaseAction::getStatusString(getStatus());
              }
 
 
@@ -150,32 +163,47 @@ using namespace std;
                         }
                     }
             //         ChangePlanPolicy *clone() const override;
-            //         const string toString() const override;
+                     const string ChangePlanPolicy::toString() const {
+                        return "ChangePlanPolicy "+ planId + newPolicy+ BaseAction::getStatusString(getStatus());
+                     }
 
                     PrintActionsLog::PrintActionsLog(){}
                     void PrintActionsLog::act(Simulation &simulation){//simulation
+                        for (BaseAction* b:simulation.getActionLogs()){
+                            cout << *b->toString() << endl;
+                        }
+                    }
+                   // PrintActionsLog* PrintActionsLog::clone() const override;
+                    const string PrintActionsLog::toString() const{
+                        return "PrintActionsLog "+ BaseAction::getStatusString(getStatus());
+                    }
+
+                class Close : public BaseAction {
+                    public:
+                        Close::Close(){
+
+                        }
+                        void Close::act(Simulation &simulation){
+                            simulation.close();
+                        }
+                        //Close * Close::clone() const;
+                        const string Close::toString() const{
+
+                        }
+
+                    BackupSimulation::BackupSimulation(){
 
                     }
-                    PrintActionsLog* PrintActionsLog::clone() const override;
-                    const string PrintActionsLog::toString() const override;
-
-// class Close : public BaseAction {
-//     public:
-//         Close();
-//         void act(Simulation &simulation) override;
-//         Close *clone() const override;
-//         const string toString() const override;
-//     private:
-// };
-
-// class BackupSimulation : public BaseAction {
-//     public:
-//         BackupSimulation();
-//         void act(Simulation &simulation) override;
-//         BackupSimulation *clone() const override;
-//         const string toString() const override;
-//     private:
-// };
+                    void BackupSimulation::act(Simulation &simulation){
+                        if(!backup){
+                            delete backup;
+                        }
+                        backup= simulation.clone();
+                    }
+                    BackupSimulation *clone() const override;
+                    const string toString() const override;
+                private:
+            };
 
 
 // class RestoreSimulation : public BaseAction {

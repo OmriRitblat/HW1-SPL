@@ -21,7 +21,7 @@ public:
     SettlementType getType() const;
     const string toString() const;
     const int maxPacilities() const;
-
+    Settlement* clone() const;
     static SettlementType getSettlememtType(const string s);
 
 private:

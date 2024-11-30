@@ -20,7 +20,7 @@ class BaseAction{
         virtual ~BaseAction() = default;
         void complete();
         void setStatusToError();
-
+        string getStatusString() const;
     protected:
         void error(string errorMsg);
         const string &getErrorMsg() const;
