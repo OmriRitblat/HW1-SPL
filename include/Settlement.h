@@ -6,21 +6,23 @@ using std::vector;
 
 class Facility;
 
-enum class SettlementType {
+enum class SettlementType
+{
     VILLAGE,
     CITY,
     METROPOLIS,
 };
 
-class Settlement {
-    public:
-        Settlement(const string &name, SettlementType type);
-        const string &getName() const;
-        SettlementType getType() const;
-        const string toString() const;
-        const int maxPacilities() const;
+class Settlement
+{
+public:
+    Settlement(const string &name, SettlementType type);
+    const string &getName() const;
+    SettlementType getType() const;
+    const string toString() const;
+    const int maxPacilities() const;
 
-        private:
-            const string name;
-            SettlementType type;
+private:
+    const string name;
+    SettlementType type;
 };

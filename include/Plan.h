@@ -15,18 +15,37 @@ class Plan
 {
 public:
     Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions);
+
+    // rule of 3
+    ~Plan();
     Plan(Plan *other);
+    void operator=(const Plan &other) = delete;
+
+    // rule of 5
+    Plan(Plan &&other);
+    Plan &operator=(const Plan &&other);
+
+    // getters
     const int getlifeQualityScore() const;
     const int getEconomyScore() const;
     const int getEnvironmentScore() const;
-    void setSelectionPolicy(SelectionPolicy *selectionPolicy);
-    void step();
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
+
+    // setters
+    void setSelectionPolicy(SelectionPolicy *selectionPolicy);
+
+    // other functions
+    void step();
     void addFacility(Facility *facility);
+    void NewFunction(Facility *facility);
     const string toString() const;
+
+    //===================
+    // should it be private??
     const string FacilityToString(const vector<Facility *> &facilities) const;
-    void operator=(const Plan &other) = delete;
+    const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
+    void updateStatus();
 
 private:
     int plan_id;

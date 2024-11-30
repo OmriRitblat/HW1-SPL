@@ -93,3 +93,4 @@ const string Facility::getStatusString() const
         return "Unknown";
     }
 }
+
