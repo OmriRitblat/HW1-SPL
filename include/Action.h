@@ -19,6 +19,7 @@ class BaseAction{
         virtual BaseAction* clone() const = 0;
         virtual ~BaseAction() = default;
         void complete();
+        void setStatusToError();
 
     protected:
         void error(string errorMsg);

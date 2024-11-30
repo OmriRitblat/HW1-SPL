@@ -11,7 +11,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
             lastSelectedIndex++;
             return facilitiesOptions[lastSelectedIndex];
         }
-        //const string NaiveSelection::NaiveSelection():toString() const override;
+        const string NaiveSelection::NaiveSelection():toString() const{
+            return "NavieSelection";
+        }
       NaiveSelection* NaiveSelection::clone() const {
     return new NaiveSelection(*this); 
 }
@@ -40,7 +42,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
             }
             return facilitiesOptions[min_index];
         }
-        // const string toString() const override;
+        const string BalancedSelection::toString() const{
+                return "BalancedSelection";
+        }
         BalancedSelection* BalancedSelection::clone() const {
             return new BalancedSelection(*this); 
 }
@@ -50,6 +54,11 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
 
         EconomySelection::EconomySelection():lastSelectedIndex(-1){
 
+        }
+        void BalancedSelection::setScores(int LifeQualityScore, int EconomyScore, int EnvironmentScore){
+            LifeQualityScore(LifeQualityScore);
+            EconomyScore(EconomyScore);
+            EnvironmentScore(EnvironmentScore);
         }
         const FacilityType& EconomySelection::selectFacility(const vector<FacilityType>& facilitiesOptions){
             lastSelectedIndex++;
@@ -62,7 +71,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
                 }
             }
         }
-       // const string toString() const override;
+       const string EconomySelection::toString() const{
+            return "EconomySelection";
+       }
         EconomySelection *EconomySelection::clone() const{
             return new EconomySelection(*this);
         }
@@ -81,7 +92,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
                 }
             }
         }
-        //const string toString() const override;
+        const string SustainabilitySelection::toString() const{
+            return "SustainabilitySelection";
+        }
         SustainabilitySelection *SustainabilitySelection::clone() const{
             return new SustainabilitySelection(*this);
         }
