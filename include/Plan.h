@@ -18,7 +18,7 @@ public:
 
     // rule of 3
     ~Plan();
-    Plan(Plan *other);
+    Plan(Plan &other);
     void operator=(const Plan &other) = delete;
 
     // rule of 5

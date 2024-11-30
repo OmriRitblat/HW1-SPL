@@ -25,7 +25,7 @@ Plan::~Plan()
     delete selectionPolicy;
     cout << "Destructor: Memory deallocated" << endl;
 }
-Plan::Plan(Plan *other) : Plan((*other).plan_id, (*other).settlement, (*other).selectionPolicy, (*other).facilityOptions)
+Plan::Plan(Plan &other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
 {
 }
 Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)

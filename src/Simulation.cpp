@@ -44,11 +44,11 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
                     {
                         policy = new NaiveSelection();
                     }
-                    else if (arguments[2]  == "bal")
+                    else if (arguments[2] == "bal")
                     {
                         policy = new BalancedSelection(0, 0, 0);
                     }
-                    else if (arguments[2]  == "eco")
+                    else if (arguments[2] == "eco")
                     {
                         policy = new EconomySelection();
                     }
@@ -56,8 +56,7 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
                     {
                         policy = new SustainabilitySelection();
                     }
-                    Plan p(planCounter, this->getSettlement(arguments[1]), policy,facilitiesOptions);
-                    plans.push_back(p);
+                    plans.push_back(Plan(planCounter, this->getSettlement(arguments[1]), policy, facilitiesOptions));
                     planCounter++;
                 }
                 else
