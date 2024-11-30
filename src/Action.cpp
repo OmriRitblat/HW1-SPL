@@ -48,7 +48,7 @@ using namespace std;
             else if (selectionPolicy == "eco") {
                 policy = new EconomySelection();
             }
-            else if (selectionPolicy == "eco_sustainability") {
+            else if (selectionPolicy == "env") {
                 policy = new SustainabilitySelection();
             }
             else {
@@ -133,7 +133,7 @@ using namespace std;
                             policy = new BalancedSelection(0, 0, 0);
                         } else if (newPolicy == "eco") {
                             policy = new EconomySelection();
-                        } else if (newPolicy == "eco_sustainability") {//fix
+                        } else if (newPolicy == "env") {
                             policy = new SustainabilitySelection();
                         }
                         if (policy != nullptr) {
