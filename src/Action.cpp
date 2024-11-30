@@ -46,7 +46,7 @@ class AddPlan : public BaseAction {
                 case "nve": policy=new NaiveSelection();
                 case "bal": policy=new BalancedSelection(0,0,0);
                 case "eco": policy=new EconomySelection();
-                case "eco": policy=new SustainabilitySelection();
+                case "eco": policy=new SustainabilitySelection();//check and change to string
                 default:   
                     error("Cannot create this plan");  
                     ActionStatus=ActionStatus::ERROR;

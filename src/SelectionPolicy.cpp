@@ -5,13 +5,18 @@ using std::vector;
 
 
         NaiveSelection::NaiveSelection():SelectionPolicy(),lastSelectedIndex(-1){}
-NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), lastSelectedIndex(n.lastSelectedIndex) {
+NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(), lastSelectedIndex(n.lastSelectedIndex) {
 }   
      const FacilityType& NaiveSelection::selectFacility(const vector<FacilityType>& facilitiesOptions){
             lastSelectedIndex++;
+            if(facilitiesOptions.size()<=lastSelectedIndex){
+                lastSelectedIndex=0;
+            }
             return facilitiesOptions[lastSelectedIndex];
         }
-        //const string NaiveSelection::NaiveSelection():toString() const override;
+        const string NaiveSelection::NaiveSelection():toString() const override{
+            return "nve";
+        }
       NaiveSelection* NaiveSelection::clone() const {
     return new NaiveSelection(*this); 
 }
@@ -40,7 +45,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
             }
             return facilitiesOptions[min_index];
         }
-        // const string toString() const override;
+        const string BalancedSelection::toString() const override{
+            return "bal";
+        }
         BalancedSelection* BalancedSelection::clone() const {
             return new BalancedSelection(*this); 
 }
@@ -53,6 +60,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
         }
         const FacilityType& EconomySelection::selectFacility(const vector<FacilityType>& facilitiesOptions){
             lastSelectedIndex++;
+            if(facilitiesOptions.size()<=lastSelectedIndex){
+                lastSelectedIndex=0;
+            }
             const vector<FacilityType>* p=&facilitiesOptions;
             p+=lastSelectedIndex;
             for(FacilityType t:*p){
@@ -62,7 +72,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
                 }
             }
         }
-       // const string toString() const override;
+       const string EconomySelection::toString() const override{
+        return "eco";
+       }
         EconomySelection *EconomySelection::clone() const{
             return new EconomySelection(*this);
         }
@@ -72,6 +84,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
         SustainabilitySelection::SustainabilitySelection():SelectionPolicy(),lastSelectedIndex(-1){}
         const FacilityType& SustainabilitySelection::selectFacility(const vector<FacilityType>& facilitiesOptions){
             lastSelectedIndex++;
+            if(facilitiesOptions.size()<=lastSelectedIndex){
+                lastSelectedIndex=0;
+            }
             const vector<FacilityType>* p=&facilitiesOptions;
             p+=lastSelectedIndex;
             for(FacilityType t:*p){
@@ -81,7 +96,9 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(n), la
                 }
             }
         }
-        //const string toString() const override;
+        const string SustainabilitySelection::toString() const override{
+            return "";
+        }
         SustainabilitySelection *SustainabilitySelection::clone() const{
             return new SustainabilitySelection(*this);
         }
