@@ -7,6 +7,9 @@ Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *sele
 {
     setSelectionPolicy(selectionPolicy);
 }
+Plan::Plan(Plan *other) : Plan((*other).getId, (*other).settlement, (*other).selectionPolicy, (*other).facilityOptions)
+{
+}
 const int Plan::getlifeQualityScore() const
 {
     return life_quality_score;
@@ -53,9 +56,20 @@ const vector<Facility *> &Plan::getFacilities() const
 {
     return facilities;
 }
-// void Plan::addFacility(Facility *facility)
-// {
-// }
+
+//================================
+//================================
+//================================
+void Plan::addFacility(Facility *facility)
+{
+    // check if the facility is aleardy is the under constractor facility
+    if (facility->getStatus(facility) == FacilityStatus::UNDER_CONSTRUCTIONS)
+    {
+        if (facility->getTimeLeft() > 0)
+            facility->setTime(facility->getTimeLeft() - 1);
+        else
+    }
+}
 const string Plan::toString() const
 {
     std::ostringstream output;
@@ -85,4 +99,29 @@ const string Plan::FacilityToString(const vector<Facility *> &facilities) const
         }
     }
     return facilityOutput.str();
+}
+
+Plan::~Plan()
+{
+    delete selectionPolicy;
+    for (Facility *facility : facilities)
+    {
+        delete facility; // Deallocate memory for each facility
+    }
+    facilities.clear(); // Clear the vector (remove all elements)
+    // Release memory for underConstruction
+    for (Facility *facility : underConstruction)
+    {
+        delete facility; // Deallocate memory for each facility
+    }
+    delete selectionPolicy;
+    cout << "Destructor: Memory deallocated" << endl;
+}
+
+Plan::Plan(Plan &&other):{
+
+}
+
+Plan::Plan &operator=(const Plan &other){
+    
 }

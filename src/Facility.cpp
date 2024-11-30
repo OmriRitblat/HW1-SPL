@@ -93,3 +93,8 @@ const string Facility::getStatusString() const
         return "Unknown";
     }
 }
+
+void Facility::setTimeLeft(int time)
+{
+    timeLeft = time;
+}
