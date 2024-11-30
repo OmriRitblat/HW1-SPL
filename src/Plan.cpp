@@ -35,14 +35,6 @@ Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selection
     other.underConstruction.clear();
 }
 
-Plan &Plan::operator=(const Plan &&other)
-{
-    //=======================
-    //=======================
-    //=======================
-    //=======================
-    //=======================
-}
 const int Plan::getlifeQualityScore() const
 {
     return life_quality_score;
@@ -78,7 +70,7 @@ void Plan::step()
         while (index < settlement.maxPacilities())
         {
             FacilityType type = selectionPolicy->selectFacility(facilityOptions);
-            Facility facility = new Facility(type, settlement.getName());
+            Facility *facility = new Facility(type, settlement.getName());
             this->addFacility(facility);
             index++;
         }
@@ -184,7 +176,7 @@ const string Plan::FacilityToString(const vector<Facility *> &facilities) const
     }
     return facilityOutput.str();
 }
-const Plan::getId() const
+const int Plan::getId() const
 {
     return this->plan_id;
 }
