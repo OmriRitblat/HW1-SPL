@@ -23,7 +23,7 @@ public:
 
     // rule of 5
     Plan(Plan &&other);
-    Plan &operator=(const Plan &&other);
+    Plan &operator=(const Plan &&other)=delete;
 
     // getters
     const int getlifeQualityScore() const;
@@ -31,7 +31,7 @@ public:
     const int getEnvironmentScore() const;
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
-    const getId() const;
+    const int getId() const;
 
     // setters
     void setSelectionPolicy(SelectionPolicy *selectionPolicy);
