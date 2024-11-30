@@ -60,7 +60,7 @@ const int Facility::getTimeLeft() const
 }
 FacilityStatus Facility::step()
 {
-    if (status == FacilityStatus::OPERATIONAL)
+    if (status == FacilityStatus::UNDER_CONSTRUCTIONS)
     {
         timeLeft--;
         if (timeLeft == 0)
@@ -94,7 +94,3 @@ const string Facility::getStatusString() const
     }
 }
 
-void Facility::setTimeLeft(int time)
-{
-    timeLeft = time;
-}

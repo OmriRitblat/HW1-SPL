@@ -38,8 +38,14 @@ public:
     // other functions
     void step();
     void addFacility(Facility *facility);
+    void NewFunction(Facility *facility);
     const string toString() const;
+
+    //===================
+    // should it be private??
     const string FacilityToString(const vector<Facility *> &facilities) const;
+    const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
+    void updateStatus();
 
 private:
     int plan_id;
