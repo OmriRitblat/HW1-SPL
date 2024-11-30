@@ -23,7 +23,7 @@ public:
 
     // rule of 5
     Plan(Plan &&other);
-    Plan &operator=(const Plan &other);
+    Plan &operator=(const Plan &&other);
 
     // getters
     const int getlifeQualityScore() const;

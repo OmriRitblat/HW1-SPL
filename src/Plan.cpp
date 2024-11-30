@@ -7,7 +7,17 @@ Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *sele
 {
     setSelectionPolicy(selectionPolicy);
 }
-Plan::Plan(Plan *other) : Plan((*other).getId, (*other).settlement, (*other).selectionPolicy, (*other).facilityOptions)
+Plan::Plan(Plan *other) : Plan((*other).plan_id, (*other).settlement, (*other).selectionPolicy, (*other).facilityOptions)
+{
+}
+Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
+{
+    other.selectionPolicy = nullptr;
+    other.facilities.clear();
+    other.underConstruction.clear();
+}
+
+Plan& Plan::operator=(const Plan &&other)
 {
 }
 const int Plan::getlifeQualityScore() const
@@ -63,11 +73,14 @@ const vector<Facility *> &Plan::getFacilities() const
 void Plan::addFacility(Facility *facility)
 {
     // check if the facility is aleardy is the under constractor facility
-    if (facility->getStatus(facility) == FacilityStatus::UNDER_CONSTRUCTIONS)
+    if (facility->getStatus() == FacilityStatus::UNDER_CONSTRUCTIONS)
     {
         if (facility->getTimeLeft() > 0)
-            facility->setTime(facility->getTimeLeft() - 1);
+            facility->setTimeLeft(facility->getTimeLeft() - 1);
         else
+        {
+            
+        }
     }
 }
 const string Plan::toString() const
@@ -116,12 +129,4 @@ Plan::~Plan()
     }
     delete selectionPolicy;
     cout << "Destructor: Memory deallocated" << endl;
-}
-
-Plan::Plan(Plan &&other):{
-
-}
-
-Plan::Plan &operator=(const Plan &other){
-    
 }
