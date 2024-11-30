@@ -1,5 +1,5 @@
 #include "Plan.h"
-#include <algorithm> // For std::find
+#include <algorithm> // for find function in vector
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -69,7 +69,13 @@ void Plan::step()
 {
     if (this->status == PlanStatus::AVALIABLE)
     {
-        // add fcility by selection policy
+        int index(underConstruction.size());
+        while(index<settlement.maxPacilities()){
+            FacilityType type=selectionPolicy->selectFacility(facilityOptions);
+            Facility facility=new Facility(type, settlement.getName());
+            this->addFacility(facility);
+            index++;
+        }
     }
     Facility *facility;
     for (auto it = underConstruction.begin(); it != underConstruction.end();)
@@ -94,7 +100,7 @@ string Plan::getStatusString() const
     default:
         strStatus = "Unknown";
     }
-    return "Status" + strStatus;
+    return "Status: " + strStatus;
 }
 const vector<Facility *> &Plan::getFacilities() const
 {
@@ -117,11 +123,12 @@ void Plan::addFacility(Facility *facility)
     int indexInVector(this->findIndexInVector(underConstruction, facility));
     if (indexInVector > -1)
     {
+        //update the score?
         facilities.push_back(facility);
         delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
     }
-    // else it should enter the under construction
+    // else the facility enters the under construction vector
     else
         underConstruction.push_back(facility);
 }
