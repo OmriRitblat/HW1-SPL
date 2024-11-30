@@ -32,6 +32,7 @@ public:
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
     const int getId() const;
+    const *SelectionPolicy getSelectionPolicy() const;
 
     // setters
     void setSelectionPolicy(SelectionPolicy *selectionPolicy);
