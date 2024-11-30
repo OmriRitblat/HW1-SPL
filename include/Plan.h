@@ -31,6 +31,7 @@ public:
     const int getEnvironmentScore() const;
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
+    const getId() const;
 
     // setters
     void setSelectionPolicy(SelectionPolicy *selectionPolicy);
@@ -46,6 +47,7 @@ public:
     const string FacilityToString(const vector<Facility *> &facilities) const;
     const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
     void updateStatus();
+    void updateScore(const Facility *facility);
 
 private:
     int plan_id;

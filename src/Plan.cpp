@@ -37,6 +37,11 @@ Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selection
 
 Plan &Plan::operator=(const Plan &&other)
 {
+    //=======================
+    //=======================
+    //=======================
+    //=======================
+    //=======================
 }
 const int Plan::getlifeQualityScore() const
 {
@@ -124,7 +129,7 @@ void Plan::addFacility(Facility *facility)
     int indexInVector(this->findIndexInVector(underConstruction, facility));
     if (indexInVector > -1)
     {
-        // update the score?
+        this->updateScore(facility);
         facilities.push_back(facility);
         delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
@@ -132,6 +137,13 @@ void Plan::addFacility(Facility *facility)
     // else the facility enters the under construction vector
     else
         underConstruction.push_back(facility);
+}
+
+void Plan::updateScore(const Facility *facility)
+{
+    this->economy_score += facility->getEconomyScore();
+    this->environment_score += facility->getEnvironmentScore();
+    this->life_quality_score += facility->getLifeQualityScore();
 }
 
 void Plan::updateStatus()
@@ -171,4 +183,8 @@ const string Plan::FacilityToString(const vector<Facility *> &facilities) const
         }
     }
     return facilityOutput.str();
+}
+const Plan::getId() const
+{
+    return this->plan_id;
 }
