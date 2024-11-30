@@ -70,9 +70,10 @@ void Plan::step()
     if (this->status == PlanStatus::AVALIABLE)
     {
         int index(underConstruction.size());
-        while(index<settlement.maxPacilities()){
-            FacilityType type=selectionPolicy->selectFacility(facilityOptions);
-            Facility facility=new Facility(type, settlement.getName());
+        while (index < settlement.maxPacilities())
+        {
+            FacilityType type = selectionPolicy->selectFacility(facilityOptions);
+            Facility facility = new Facility(type, settlement.getName());
             this->addFacility(facility);
             index++;
         }
@@ -123,7 +124,7 @@ void Plan::addFacility(Facility *facility)
     int indexInVector(this->findIndexInVector(underConstruction, facility));
     if (indexInVector > -1)
     {
-        //update the score?
+        // update the score?
         facilities.push_back(facility);
         delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
