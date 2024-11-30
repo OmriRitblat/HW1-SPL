@@ -22,6 +22,8 @@ public:
     const string toString() const;
     const int maxPacilities() const;
 
+    static SettlementType getSettlememtType(const string s);
+
 private:
     const string name;
     SettlementType type;

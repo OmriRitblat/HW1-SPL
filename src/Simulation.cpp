@@ -26,14 +26,50 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
             std::vector<std::string> arguments = Auxiliary::parseArguments(line);
             if (arguments[0] != "#")
             {
-                switch(arguments[0]){
-                    case "settlement" : settlements.push_back(new Settlement(arguments[1],arguments[2]));
-                    case ""
+                if (arguments[0] == "settlement")
+                {
+                    Settlement *s = new Settlement(arguments[1], Settlement::getSettlememtType(arguments[2]));
+                    settlements.push_back(s);
                 }
+                else if (arguments[0] == "facility")
+                {
+                    string name = arguments[1];
+                    FacilityType f(name, FacilityType::getFacilityCategory(arguments[2]), std::stoi(arguments[3]), std::stoi(arguments[4]), std::stoi(arguments[5]), std::stoi(arguments[6]));
+                    facilitiesOptions.push_back(f);
+                }
+                else if (arguments[0] == "plan")
+                {
+                    SelectionPolicy *policy;
+                    if (arguments[2] == "nve")
+                    {
+                        policy = new NaiveSelection();
+                    }
+                    else if (arguments[2]  == "bal")
+                    {
+                        policy = new BalancedSelection(0, 0, 0);
+                    }
+                    else if (arguments[2]  == "eco")
+                    {
+                        policy = new EconomySelection();
+                    }
+                    else
+                    {
+                        policy = new SustainabilitySelection();
+                    }
+                    Plan p(planCounter, this->getSettlement(arguments[1]), policy,facilitiesOptions);
+                    plans.push_back(p);
+                    planCounter++;
+                }
+                else
+                    cout << "there is an error in the config file" << endl;
             }
         }
     }
+    cout << "there are " << plans.size() << " plans" << endl;
+    cout << "there are " << settlements.size() << " settlements" << endl;
+    cout << "there are " << facilitiesOptions.size() << " facilitiesOptions" << endl;
 }
+
 // void Simulation::start()
 // {
 //     string input;

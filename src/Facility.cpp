@@ -94,3 +94,13 @@ const string Facility::getStatusString() const
     }
 }
 
+FacilityCategory FacilityType::getFacilityCategory(const string s)
+{
+    if (s == "0")
+        return FacilityCategory::LIFE_QUALITY;
+    else if (s == "1")
+        return FacilityCategory::ECONOMY;
+    else
+        return FacilityCategory::ENVIRONMENT;
+}
+

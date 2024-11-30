@@ -47,7 +47,8 @@ const int Plan::getEnvironmentScore() const
 {
     return environment_score;
 }
-const *SelectionPolicy Plan::getSelectionPolicy() const{
+const SelectionPolicy *Plan::getSelectionPolicy() const
+{
     return selectionPolicy;
 }
 void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)

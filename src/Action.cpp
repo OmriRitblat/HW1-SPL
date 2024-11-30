@@ -43,7 +43,7 @@ using namespace std;
             else if (selectionPolicy == "eco") {
                 policy = new EconomySelection();
             }
-            else if (selectionPolicy == "eco_sustainability") {
+            else if (selectionPolicy == "env") {
                 policy = new SustainabilitySelection();
             }
             else {
