@@ -16,7 +16,7 @@ using std::vector;
                     case "step":
                         int numberOfSteps=std::stoi(words[1]);
                         BaseAction* b=new SimulateStep(numberOfSteps);
-                        *b.act(*this)
+                        *b.act(*this);
                     case "plan":
                         BaseAction* b=new addPlan(words[1],words[2]);
                         *b.act(*this);
@@ -89,7 +89,7 @@ using std::vector;
             
         }
         void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy){
-            plans.push_back(Plan(planCounter,settlement,selectionPolicy,vector<FacilityType>));
+            plans.push_back(Plan(planCounter,settlement,selectionPolicy,facilitiesOptions));
             planCounter++;
         }
         void Simulation::addAction(BaseAction *action);
