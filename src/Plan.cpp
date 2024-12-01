@@ -25,8 +25,16 @@ Plan::~Plan()
     delete selectionPolicy;
     cout << "Destructor: Memory deallocated" << endl;
 }
-Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
+Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
 {
+    selectionPolicy(other.selectionPolicy->clone());
+    for (Facility *f : other.facilities)
+        facilities.push_back(f->clone());
+    for (Facility *f : other.underConstruction)
+        underConstruction.push_back(f->clone());
+    this->life_quality_score = other.life_quality_score;
+    this->economy_score = other.economy_score;
+    this->environment_score = other.environment_score;
 }
 Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
 {
@@ -47,27 +55,36 @@ const int Plan::getEnvironmentScore() const
 {
     return environment_score;
 }
-    const int getlifeQualityScoreUnderConstruction() const{
-        int sum=0;
-        for(Facility* f:underConstruction){
-            sum+=(*f).getLifeQualityScore();
-        }
-        return sum;
+const int Plan::getlifeQualityScoreUnderConstruction() const
+{
+    int sum = 0;
+    for (Facility *f : this->underConstruction)
+    {
+        if (f)
+            sum += (*f).getLifeQualityScore();
     }
-    const int getEconomyScoreUnderConstruction() const{
-        int sum=0;
-        for(Facility* f:underConstruction){
-            sum+=(*f).getEconomyScore();
-        }
-        return sum;
+    return sum;
+}
+const int Plan::getEconomyScoreUnderConstruction() const
+{
+    int sum = 0;
+    for (Facility *f : this->underConstruction)
+    {
+        if (f)
+            sum += (*f).getEconomyScore();
     }
-    const int getEnvironmentScoreUnderConstruction() const{
-        int sum=0;
-        for(Facility* f:underConstruction){
-            sum+=(*f).getEnvironmentScore();
-        }
-        return sum;
+    return sum;
+}
+const int Plan::getEnvironmentScoreUnderConstruction() const
+{
+    int sum = 0;
+    for (Facility *f : underConstruction)
+    {
+        if (f)
+            sum += (*f).getEnvironmentScore();
     }
+    return sum;
+}
 const SelectionPolicy *Plan::getSelectionPolicy() const
 {
     return selectionPolicy;

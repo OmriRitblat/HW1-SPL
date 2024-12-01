@@ -94,7 +94,7 @@ void Simulation::operator=(const Simulation &other)
         settlements.push_back(s->clone());
     for (Plan p : plans)
         plans.pop_back();
-    for (Plan p : other.plans)
+    for (const Plan &p : other.plans)
         plans.push_back(p);
     for (FacilityType f : facilitiesOptions)
         facilitiesOptions.pop_back();
@@ -290,17 +290,7 @@ void Simulation::close()
 {
     isRunning = false;
     for (Plan p : plans)
-    {
         cout << p.toString() << endl;
-    }
-    for (BaseAction *b : actionsLog)
-    {
-        delete b;
-    }
-    for (Settlement *s : settlements)
-    {
-        delete s;
-    }
 }
 Simulation *Simulation::clone() const
 {

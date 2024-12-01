@@ -23,6 +23,7 @@ public:
     const int maxPacilities() const;
     Settlement* clone() const;
     static SettlementType getSettlememtType(const string s);
+    static string getSettlememtTypeByString(const SettlementType st);
 
 private:
     const string name;
