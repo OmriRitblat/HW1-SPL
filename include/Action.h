@@ -12,14 +12,16 @@ enum class ActionStatus{
 class BaseAction{
     public:
         BaseAction();
+        BaseAction(string &errorMsg,ActionStatus status);
         ActionStatus getStatus() const;
         virtual void act(Simulation& simulation)=0;
         virtual const string toString() const=0;
         virtual BaseAction* clone() const = 0;
         virtual ~BaseAction() = default;
-
-    protected:
         void complete();
+        void setStatusToError();
+        string getStatusString() const;
+    protected:
         void error(string errorMsg);
         const string &getErrorMsg() const;
 
@@ -37,6 +39,7 @@ class SimulateStep : public BaseAction {
         SimulateStep *clone() const override;
     private:
         const int numOfSteps;
+        int restNum;
 };
 
 class AddPlan : public BaseAction {

@@ -12,6 +12,7 @@ class SelectionPolicy;
 
 class Simulation {
     public:
+        Simulation(bool isRunning,int planCounter);
         Simulation(const string &configFilePath);
         void start();
         void addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy);
@@ -25,6 +26,8 @@ class Simulation {
         void step();
         void close();
         void open();
+        Simulation* clone()const;
+         vector<BaseAction*> & getActionLogs();
     private:
         bool isRunning;
         int planCounter; //For assigning unique plan IDs

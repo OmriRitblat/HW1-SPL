@@ -27,6 +27,7 @@ class FacilityType {
         FacilityCategory getCategory() const;
         //not in use
         const string getCategoryString() const;
+        static FacilityCategory getFacilityCategory(const string s);
 
     protected:
         const string name;

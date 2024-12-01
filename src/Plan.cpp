@@ -25,7 +25,7 @@ Plan::~Plan()
     delete selectionPolicy;
     cout << "Destructor: Memory deallocated" << endl;
 }
-Plan::Plan(Plan *other) : Plan((*other).plan_id, (*other).settlement, (*other).selectionPolicy, (*other).facilityOptions)
+Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
 {
 }
 Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
@@ -35,9 +35,6 @@ Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selection
     other.underConstruction.clear();
 }
 
-Plan &Plan::operator=(const Plan &&other)
-{
-}
 const int Plan::getlifeQualityScore() const
 {
     return life_quality_score;
@@ -50,6 +47,31 @@ const int Plan::getEnvironmentScore() const
 {
     return environment_score;
 }
+    const int getlifeQualityScoreUnderConstruction() const{
+        int sum=0;
+        for(Facility* f:underConstruction){
+            sum+=(*f).getLifeQualityScore();
+        }
+        return sum;
+    }
+    const int getEconomyScoreUnderConstruction() const{
+        int sum=0;
+        for(Facility* f:underConstruction){
+            sum+=(*f).getEconomyScore();
+        }
+        return sum;
+    }
+    const int getEnvironmentScoreUnderConstruction() const{
+        int sum=0;
+        for(Facility* f:underConstruction){
+            sum+=(*f).getEnvironmentScore();
+        }
+        return sum;
+    }
+const SelectionPolicy *Plan::getSelectionPolicy() const
+{
+    return selectionPolicy;
+}
 void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
 {
     if (selectionPolicy == this->selectionPolicy)
@@ -58,8 +80,6 @@ void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
     {
         cout << "plan ID: " << plan_id << endl;
         cout << "previousPolicy: " << (this->selectionPolicy)->toString() << endl;
-        //===================================================
-        // update what hapends when changing to balance policy
         delete this->selectionPolicy;
         this->selectionPolicy = selectionPolicy;
         cout << "newPolicy: " << (this->selectionPolicy)->toString() << endl;
@@ -70,9 +90,10 @@ void Plan::step()
     if (this->status == PlanStatus::AVALIABLE)
     {
         int index(underConstruction.size());
-        while(index<settlement.maxPacilities()){
-            FacilityType type=selectionPolicy->selectFacility(facilityOptions);
-            Facility facility=new Facility(type, settlement.getName());
+        while (index < settlement.maxPacilities())
+        {
+            FacilityType type = selectionPolicy->selectFacility(facilityOptions);
+            Facility *facility = new Facility(type, settlement.getName());
             this->addFacility(facility);
             index++;
         }
@@ -123,7 +144,7 @@ void Plan::addFacility(Facility *facility)
     int indexInVector(this->findIndexInVector(underConstruction, facility));
     if (indexInVector > -1)
     {
-        //update the score?
+        this->updateScore(facility);
         facilities.push_back(facility);
         delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
@@ -131,6 +152,13 @@ void Plan::addFacility(Facility *facility)
     // else the facility enters the under construction vector
     else
         underConstruction.push_back(facility);
+}
+
+void Plan::updateScore(const Facility *facility)
+{
+    this->economy_score += facility->getEconomyScore();
+    this->environment_score += facility->getEnvironmentScore();
+    this->life_quality_score += facility->getLifeQualityScore();
 }
 
 void Plan::updateStatus()
@@ -170,4 +198,8 @@ const string Plan::FacilityToString(const vector<Facility *> &facilities) const
         }
     }
     return facilityOutput.str();
+}
+const int Plan::getId() const
+{
+    return this->plan_id;
 }

@@ -18,19 +18,24 @@ public:
 
     // rule of 3
     ~Plan();
-    Plan(Plan *other);
+    Plan(const Plan &other);
     void operator=(const Plan &other) = delete;
 
     // rule of 5
     Plan(Plan &&other);
-    Plan &operator=(const Plan &&other);
+    Plan &operator=(const Plan &&other) = delete;
 
     // getters
     const int getlifeQualityScore() const;
     const int getEconomyScore() const;
     const int getEnvironmentScore() const;
+    const int getlifeQualityScoreUnderConstruction() const;
+    const int getEconomyScoreUnderConstruction() const;
+    const int getEnvironmentScoreUnderConstruction() const;
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
+    const int getId() const;
+    const SelectionPolicy *getSelectionPolicy() const;
 
     // setters
     void setSelectionPolicy(SelectionPolicy *selectionPolicy);
@@ -46,6 +51,7 @@ public:
     const string FacilityToString(const vector<Facility *> &facilities) const;
     const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
     void updateStatus();
+    void updateScore(const Facility *facility);
 
 private:
     int plan_id;

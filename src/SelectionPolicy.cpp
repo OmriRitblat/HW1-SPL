@@ -58,6 +58,11 @@ NaiveSelection::NaiveSelection(const NaiveSelection& n) : SelectionPolicy(), las
         EconomySelection::EconomySelection():lastSelectedIndex(-1){
 
         }
+        void BalancedSelection::setScores(int LifeQualityScore, int EconomyScore, int EnvironmentScore){
+            LifeQualityScore(LifeQualityScore);
+            EconomyScore(EconomyScore);
+            EnvironmentScore(EnvironmentScore);
+        }
         const FacilityType& EconomySelection::selectFacility(const vector<FacilityType>& facilitiesOptions){
             lastSelectedIndex++;
             if(facilitiesOptions.size()<=lastSelectedIndex){
