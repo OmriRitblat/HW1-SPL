@@ -27,7 +27,7 @@ Plan::~Plan()
 }
 Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
 {
-    selectionPolicy(other.selectionPolicy->clone());
+    selectionPolicy=other.selectionPolicy->clone();
     for (Facility *f : other.facilities)
         facilities.push_back(f->clone());
     for (Facility *f : other.underConstruction)

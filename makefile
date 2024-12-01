@@ -16,7 +16,8 @@ compile:
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Simulation.o src/Simulation.cpp
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Auxiliary.o src/Auxiliary.cpp
 	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Action.o src/Action.cpp
-# g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude  bin/*.o src/*.cpp
+	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/SelectionPolicy.o src/SelectionPolicy.cpp
+
 
 # Clean the build directory
 .PHONY: clean

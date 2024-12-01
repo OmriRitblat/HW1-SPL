@@ -14,7 +14,6 @@ Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), 
 }
 Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr)
 {
-    int i(0);
     cout << "configFilePath " << configFilePath << endl;
     std::ifstream file(configFilePath);
     if (!file.is_open())
@@ -68,9 +67,6 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
             }
         }
     }
-    cout << "there are " << plans.size() << " plans" << endl;
-    cout << "there are " << settlements.size() << " settlements" << endl;
-    cout << "there are " << facilitiesOptions.size() << " facilitiesOptions" << endl;
 }
 
 Simulation::~Simulation()
@@ -277,6 +273,7 @@ Plan &Simulation::getPlan(const int planID)
             return p;
         }
     }
+
 }
 void Simulation::step()
 {
@@ -311,6 +308,7 @@ Simulation *Simulation::clone() const
     {
         (s->facilitiesOptions).push_back(f);
     }
+    return s;
 }
 void Simulation::open()
 {

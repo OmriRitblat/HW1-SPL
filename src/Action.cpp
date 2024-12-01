@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Action.h"
 #include "Global.h"
+#include "SelectionPolicy.h"
 
 using namespace std;
 
@@ -55,27 +56,16 @@ void SimulateStep::act(Simulation &simulation)
         restNum++;
     }
 }
-//===============================
-// need to implement
-const string SimulateStep::toString() const
-{
-    //===============================
-    // print stuff
-    //===============================
-}
-//===============================
-// need to implement
-//===============================
+
 SimulateStep *SimulateStep::clone() const
 {
-    return (*this);
+    return new SimulateStep(*this);
 }
 
 const string SimulateStep::toString() const
 {
-    return "SimulateStep " + numOfSteps + BaseAction::getStatusString();
+    return "SimulateStep " + std::to_string(numOfSteps) + " ";
 }
-// SimulateStep *clone() const override;
 
 AddPlan::AddPlan(const string &settlementName, const string &selectionPolicy) : BaseAction(), settlementName(settlementName), selectionPolicy(selectionPolicy), policy(nullptr)
 {
@@ -117,7 +107,10 @@ const string AddPlan::toString() const
 {
     return "AddPlan " + settlementName + selectionPolicy + policy->toString() + BaseAction::getStatusString();
 }
-// AddPlan *clone() const override;
+AddPlan *AddPlan::clone() const
+{
+    return new AddPlan(*this);
+}
 
 AddSettlement::AddSettlement(const string &settlementName, SettlementType settlementType) : BaseAction(), settlementName(settlementName), settlementType(settlementType)
 {
@@ -134,7 +127,10 @@ void AddSettlement::act(Simulation &simulation)
         simulation.addSettlement(new Settlement(settlementName, settlementType));
     }
 }
-// AddSettlement *clone() const override;
+AddSettlement *AddSettlement::clone() const
+{
+    return new AddSettlement(*this);
+}
 const string AddSettlement::toString() const
 {
     return "AddSettlement " + settlementName + Settlement::getSettlememtTypeByString(settlementType) + BaseAction::getStatusString();
@@ -153,7 +149,10 @@ void AddFacility::act(Simulation &simulation)
         BaseAction::setStatusToError();
     }
 }
-// AddFacility *clone() const override;
+AddFacility *AddFacility::clone() const
+{
+    return new AddFacility(*this);
+}
 const string AddFacility::toString() const
 {
     return "AddFacility " + facilityName +
@@ -180,7 +179,10 @@ void PrintPlanStatus::act(Simulation &simulation)
         BaseAction::setStatusToError();
     }
 }
-// PrintPlanStatus* PrintPlanStatus::clone() const override;
+PrintPlanStatus *PrintPlanStatus::clone() const
+{
+    return new PrintPlanStatus(*this);
+}
 const string PrintPlanStatus::toString() const
 {
     return "PrintPlanStatus " + planId + BaseAction::getStatusString();
@@ -224,21 +226,29 @@ void ChangePlanPolicy::act(Simulation &simulation)
         BaseAction::setStatusToError();
     }
 }
-//         ChangePlanPolicy *clone() const override;
+ChangePlanPolicy *ChangePlanPolicy::clone() const
+{
+    return new ChangePlanPolicy(*this);
+}
 const string ChangePlanPolicy::toString() const
 {
     return "ChangePlanPolicy " + planId + newPolicy + BaseAction::getStatusString();
 }
 
-PrintActionsLog::PrintActionsLog() {}
+PrintActionsLog::PrintActionsLog()
+{
+}
 void PrintActionsLog::act(Simulation &simulation)
 { // simulation
     for (BaseAction *b : simulation.getActionLogs())
     {
-        cout << b->toString() << endl;
+        cout << b->toString() << " " << b->getStatusString() << endl;
     }
 }
-// PrintActionsLog* PrintActionsLog::clone() const override;
+PrintActionsLog *PrintActionsLog::clone() const
+{
+    return new PrintActionsLog(*this);
+}
 const string PrintActionsLog::toString() const
 {
     return "PrintActionsLog " + BaseAction::getStatusString();
@@ -250,9 +260,13 @@ void Close::act(Simulation &simulation)
 {
     simulation.close();
 }
-// Close * Close::clone() const;
+Close *Close::clone() const
+{
+    return new Close(*this);
+}
 const string Close::toString() const
 {
+    return "Close";
 }
 
 BackupSimulation::BackupSimulation()
@@ -266,8 +280,14 @@ void BackupSimulation::act(Simulation &simulation)
     }
     ::backup = simulation.clone();
 }
-// BackupSimulation *clone() const override;
-// const string toString() const override;
+BackupSimulation *BackupSimulation::clone() const
+{
+    return new BackupSimulation(*this);
+}
+const string BackupSimulation::toString() const
+{
+    return "backup";
+}
 
 RestoreSimulation::RestoreSimulation()
 {
@@ -284,5 +304,11 @@ void RestoreSimulation::act(Simulation &simulation)
         BaseAction::setStatusToError();
     }
 }
-// RestoreSimulation *clone() const override;
-// const string toString() const override;
+RestoreSimulation *RestoreSimulation::clone() const
+{
+    return new RestoreSimulation(*this);
+}
+const string RestoreSimulation::toString() const
+{
+    return "restore";
+}
