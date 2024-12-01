@@ -12,6 +12,7 @@ const string &Settlement::getName() const
 {
     return name;
 }
+
 Settlement* Settlement::clone() const{
     return new Settlement(name,type);
 }
