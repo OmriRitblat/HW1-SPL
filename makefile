@@ -4,7 +4,6 @@ all: clean compile main
 # Rule to link the object files and create the executable
 main: 
 	g++ bin/*.o -o bin/main
-	./bin/main  config_file.txt
 
 # Rule to compile the source files into object files
 compile:
