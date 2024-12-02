@@ -27,7 +27,7 @@ FacilityCategory FacilityType::getCategory() const
 {
     return category;
 }
-const string FacilityType::getCategoryString(FacilityCategory fCategory) 
+const string FacilityType::getCategoryString(FacilityCategory fCategory)
 {
     switch (fCategory)
     {
@@ -42,14 +42,14 @@ const string FacilityType::getCategoryString(FacilityCategory fCategory)
     }
 }
 
-
 Facility::Facility(const string &name, const string &settlementName, const FacilityCategory category, const int price, const int lifeQuality_score, const int economy_score, const int environment_score) : FacilityType(name, category, price, lifeQuality_score, economy_score, environment_score), settlementName(settlementName), status(FacilityStatus::UNDER_CONSTRUCTIONS), timeLeft(price)
 {
 }
-Facility *Facility::clone()const{
-    Facility*f= new Facility(this->name,this->settlementName,this->category,this->price,this->lifeQuality_score,this->economy_score,this->environment_score);
-f->setStatus(this->status);
-f->timeLeft=this->timeLeft;
+Facility *Facility::clone() const
+{
+    Facility *f = new Facility(this->name, this->settlementName, this->category, this->price, this->lifeQuality_score, this->economy_score, this->environment_score);
+    f->setStatus(this->status);
+    f->timeLeft = this->timeLeft;
 }
 
 Facility::Facility(const FacilityType &type, const string &settlementName) : FacilityType(type), settlementName(settlementName), status(FacilityStatus::UNDER_CONSTRUCTIONS), timeLeft(type.getCost())
@@ -109,4 +109,3 @@ FacilityCategory FacilityType::getFacilityCategory(const string s)
     else
         return FacilityCategory::ENVIRONMENT;
 }
-
