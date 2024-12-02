@@ -1,4 +1,3 @@
-#pragma once
 #include <string>
 #include <vector>
 #include "Simulation.h"
@@ -9,10 +8,10 @@ using std::string;
 using std::vector;
 using namespace std;
 
-Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter)
+Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter),actionsLog(),plans(),settlements(),facilitiesOptions()
 {
 }
-Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr)
+Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr),plans(),settlements(),facilitiesOptions()
 {
     cout << "configFilePath " << configFilePath << endl;
     std::ifstream file(configFilePath);
@@ -266,14 +265,11 @@ Settlement &Simulation::getSettlement(const string &settlementName)
 }
 Plan &Simulation::getPlan(const int planID)
 {
-    for (Plan p : plans)
-    {
-        if (p.getId() == planID)
-        {
-            return p;
-        }
-    }
-
+   if (planID<plans.size()){
+    return plans[planID];
+}
+    Plan p;
+    return p;
 }
 void Simulation::step()
 {
@@ -282,7 +278,7 @@ void Simulation::step()
         p.step();
     }
 }
-//  void Simulation::changePolicy();
+//  void Simulation::changePolicy();/////////////////////////////////////////////////////////
 void Simulation::close()
 {
     isRunning = false;

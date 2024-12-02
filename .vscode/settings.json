@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "*.ejs": "html",
         "iostream": "cpp",
         "ostream": "cpp",
         "new": "cpp",
@@ -66,9 +65,7 @@
         "memory": "cpp",
         "memory_resource": "cpp",
         "numeric": "cpp",
-        "random": "cpp",
-        "set": "cpp"
+        "random": "cpp"
     },
     "terminal.integrated.inheritEnv": false,
-    "C_Cpp.errorSquiggles": "disabled",
 }

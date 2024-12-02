@@ -103,6 +103,9 @@ void AddPlan::act(Simulation &simulation)
         simulation.addPlan(simulation.getSettlement(settlementName), policy);
     }
 }
+AddPlan::~AddPlan(){
+    delete policy;
+}
 const string AddPlan::toString() const
 {
     return "AddPlan " + settlementName + selectionPolicy + policy->toString() + BaseAction::getStatusString();
@@ -169,9 +172,10 @@ PrintPlanStatus::PrintPlanStatus(int planId) : BaseAction(), planId(planId)
 }
 void PrintPlanStatus::act(Simulation &simulation)
 {
-    if (&simulation.getPlan(planId))
+    Plan p=simulation.getPlan(planId);
+    if (p.getId()!=-1)
     {
-        simulation.getPlan(planId).toString();
+        cout<<simulation.getPlan(planId).toString()<<endl;
     }
     else
     {

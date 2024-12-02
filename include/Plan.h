@@ -15,9 +15,9 @@ class Plan
 {
 public:
     Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions);
-
     // rule of 3
     ~Plan();
+    Plan();
     Plan(const Plan &other);
     void operator=(const Plan &other) = delete;
 

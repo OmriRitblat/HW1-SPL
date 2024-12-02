@@ -7,6 +7,7 @@ using namespace std;
 Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilityOptions(facilityOptions), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
+Plan::Plan():plan_id(-1),settlement(Settlement("defult", SettlementType::CITY)), selectionPolicy(), status(PlanStatus::AVALIABLE), facilityOptions(vector<FacilityType>()), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0){}
 Plan::~Plan()
 {
     delete selectionPolicy;
@@ -21,7 +22,6 @@ Plan::~Plan()
     {
         delete facility; // Deallocate memory for each facility
     }
-    cout << "Destructor: Memory deallocated" << endl;
 }
 Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
 {
@@ -36,6 +36,8 @@ Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, o
 }
 Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
 {
+    underConstruction=other.underConstruction;
+    facilities=other.facilities;
     other.selectionPolicy = nullptr;
     other.facilities.clear();
     other.underConstruction.clear();
@@ -124,15 +126,19 @@ string Plan::getStatusString() const
 {
     string strStatus;
     switch (status)
-    {
+{
     case PlanStatus::AVALIABLE:
         strStatus = "AVALIABLE";
+        break;  // Prevent fall-through
     case PlanStatus::BUSY:
         strStatus = "BUSY";
+        break;  // Prevent fall-through
     default:
         strStatus = "Unknown";
-    }
-    return "Status: " + strStatus;
+        break;  
+}
+
+return strStatus;
 }
 const vector<Facility *> &Plan::getFacilities() const
 {
@@ -195,10 +201,9 @@ const string Plan::toString() const
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';
-
-    // Collect facility info and append
     output << "Facilities:\n"
            << this->FacilityToString(this->underConstruction);
+    cout<<output.str()<<endl;
     return output.str();
 }
 
@@ -206,7 +211,7 @@ const string Plan::toString() const
 const string Plan::FacilityToString(const vector<Facility *> &facilities) const
 {
     std::ostringstream facilityOutput;
-    for (const auto &facility : facilities)
+    for (Facility * facility : facilities)
     {
         if (facility)
         { // Ensure pointer is not null
@@ -217,5 +222,5 @@ const string Plan::FacilityToString(const vector<Facility *> &facilities) const
 }
 const int Plan::getId() const
 {
-    return this->plan_id;
+    return plan_id;
 }

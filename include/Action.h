@@ -48,6 +48,7 @@ class AddPlan : public BaseAction {
         void act(Simulation &simulation) override;
         const string toString() const override;
         AddPlan *clone() const override;
+        ~AddPlan();
     private:
         const string settlementName;
         const string selectionPolicy;
