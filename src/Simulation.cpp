@@ -102,7 +102,7 @@ void Simulation::start()
     string input;
     while (isRunning)
     {
-        std::cin >> input;
+        std::getline(std::cin, input);
         std::vector<std::string> words = Auxiliary::parseArguments(input);
         BaseAction *b;
         if (words[0] == "step")

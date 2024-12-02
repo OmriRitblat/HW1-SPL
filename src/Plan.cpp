@@ -21,7 +21,6 @@ Plan::~Plan()
     {
         delete facility; // Deallocate memory for each facility
     }
-    delete selectionPolicy;
     cout << "Destructor: Memory deallocated" << endl;
 }
 Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
@@ -114,14 +113,10 @@ void Plan::step()
             index++;
         }
     }
-    Facility *facility;
-    for (auto it = underConstruction.begin(); it != underConstruction.end();)
+    for (Facility * f:underConstruction)
     {
-        facility = *it;
-        if (facility->step() == FacilityStatus::OPERATIONAL)
-            this->addFacility(facility);
-        else
-            ++it;
+        if (f->step() == FacilityStatus::OPERATIONAL)
+            this->addFacility(f);
     }
     this->updateStatus();
 }
@@ -153,21 +148,26 @@ const int Plan::findIndexInVector(const vector<Facility *> &vec, Facility *facil
     return -1; // Pointer not found
 }
 
-void Plan::addFacility(Facility *facility)
+void Plan::addFacility(Facility *facility)////////////////////////////////////////////////////////////////////////////////////////////
 {
-    // check wehre to add the Facility
+    // check where to add the Facility
     // if the facility already in the under constructer it shloud move to the facilities vector
     int indexInVector(this->findIndexInVector(underConstruction, facility));
     if (indexInVector > -1)
     {
         this->updateScore(facility);
         facilities.push_back(facility);
-        delete underConstruction[indexInVector];
+//        delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
     }
     // else the facility enters the under construction vector
-    else
+    else{
         underConstruction.push_back(facility);
+        if(selectionPolicy->getType()==SelectionPolicyType::BALANCE){
+            BalancedSelection* b = dynamic_cast<BalancedSelection*>(selectionPolicy);
+            b->addScores(getlifeQualityScoreUnderConstruction(),getEconomyScoreUnderConstruction(),getEnvironmentScoreUnderConstruction());
+        }
+    }
 }
 
 void Plan::updateScore(const Facility *facility)
@@ -191,7 +191,7 @@ const string Plan::toString() const
     output << "PlanID: " << plan_id << '\n';
     output << "SettlementName: " << settlement.getName() << '\n';
     output << "PlanStatus: " << this->getStatusString() << '\n';
-    // output << "SelectionPolicy: " << SelectionPolicy.toString() << '\n';
+    output << "SelectionPolicy: " << selectionPolicy->toString() << '\n';
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';

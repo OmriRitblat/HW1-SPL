@@ -3,12 +3,20 @@
 #include "Facility.h"
 using std::vector;
 
+enum class SelectionPolicyType
+{
+    BALANCE,
+    NAIVE,
+    ECO,
+    SUB
+};
 class SelectionPolicy {
     public:
         virtual const FacilityType& selectFacility(const vector<FacilityType>& facilitiesOptions) = 0;
         virtual const string toString() const = 0;
         virtual SelectionPolicy* clone() const = 0;
         virtual ~SelectionPolicy() = default;
+        virtual SelectionPolicyType getType() const =0;
 };
 
 class NaiveSelection: public SelectionPolicy {
@@ -19,6 +27,7 @@ class NaiveSelection: public SelectionPolicy {
         const string toString() const override;
         NaiveSelection* clone() const override;
         ~NaiveSelection() override = default;
+        SelectionPolicyType getType() const;
     private:
         int lastSelectedIndex;
 };
@@ -31,7 +40,8 @@ class BalancedSelection: public SelectionPolicy {
         BalancedSelection *clone() const override;
         ~BalancedSelection() override = default;
         BalancedSelection(const BalancedSelection &b);
-        void setScores(int LifeQualityScore, int EconomyScore, int EnvironmentScore);
+        void addScores(int LifeQualityScore, int EconomyScore, int EnvironmentScore);
+        SelectionPolicyType getType() const;
     private:
         int LifeQualityScore;
         int EconomyScore;
@@ -46,6 +56,7 @@ class EconomySelection: public SelectionPolicy {
         EconomySelection *clone() const override;
         EconomySelection(const EconomySelection &e);
         ~EconomySelection() override = default;
+        SelectionPolicyType getType() const;
     private:
         int lastSelectedIndex;
 
@@ -59,6 +70,7 @@ class SustainabilitySelection: public SelectionPolicy {
         SustainabilitySelection *clone() const override;
         ~SustainabilitySelection() override = default;
         SustainabilitySelection(const SustainabilitySelection &s);
+        SelectionPolicyType getType() const;
     private:
         int lastSelectedIndex;
 };
