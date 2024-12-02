@@ -18,8 +18,8 @@ public:
 
     // rule of 3
     ~Plan();
-    Plan(Plan &other);
-    //void operator=(const Plan &other) = delete;
+    Plan(const Plan &other);
+    void operator=(const Plan &other) = delete;
 
     // rule of 5
     Plan(Plan &&other);
@@ -29,6 +29,9 @@ public:
     const int getlifeQualityScore() const;
     const int getEconomyScore() const;
     const int getEnvironmentScore() const;
+    const int getlifeQualityScoreUnderConstruction() const;
+    const int getEconomyScoreUnderConstruction() const;
+    const int getEnvironmentScoreUnderConstruction() const;
     string getStatusString() const;
     const vector<Facility *> &getFacilities() const;
     const int getId() const;

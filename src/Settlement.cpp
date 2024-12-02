@@ -12,8 +12,10 @@ const string &Settlement::getName() const
 {
     return name;
 }
-Settlement* Settlement::clone() const{
-    return new Settlement(name,type);
+
+Settlement *Settlement::clone() const
+{
+    return new Settlement(name, type);
 }
 SettlementType Settlement::getType() const
 {
@@ -21,14 +23,20 @@ SettlementType Settlement::getType() const
 }
 const string Settlement::toString() const
 {
+
+    return "Settlement Name: " + name + "Settlement Type: " + Settlement::getSettlememtTypeByString(type);
+}
+
+ string Settlement::getSettlememtTypeByString(const SettlementType st)
+{
     string t;
-    if (type == SettlementType::CITY)
+    if (st == SettlementType::CITY)
         t = "CITY";
-    else if (type == SettlementType::VILLAGE)
+    else if (st == SettlementType::VILLAGE)
         t = "VILLAGE";
-    else if (type == SettlementType::METROPOLIS)
+    else if (st == SettlementType::METROPOLIS)
         t = "METROPOLIS";
-    return "Settlement Name: " + name + "Settlement Type: " + t;
+    return t;
 }
 
 SettlementType Settlement::getSettlememtType(const string s)
