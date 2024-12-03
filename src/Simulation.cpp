@@ -280,7 +280,7 @@ void Simulation::step()
         p.step();
     }
 }
-//  void Simulation::changePolicy();/////////////////////////////////////////////////////////
+//  void Simulation::changePolicy();
 void Simulation::close()
 {
     isRunning = false;
@@ -288,6 +288,17 @@ void Simulation::close()
     for (Plan p : plans)
         cout << p.toString() << endl;
 }
+Simulation::~Simulation(){
+    for(BaseAction* b:actionsLog){
+        delete b;
+    }
+    for(Settlement* s:settlements){
+        delete s;
+    }
+    plans.clear();
+    facilitiesOptions.clear();
+}
+
 Simulation *Simulation::clone() const
 {
     Simulation *s = new Simulation(isRunning, planCounter);
