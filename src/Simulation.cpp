@@ -9,10 +9,10 @@ using std::string;
 using std::vector;
 using namespace std;
 
-Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter),actionsLog(),plans(),settlements(),facilitiesOptions()
+Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
-Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr),plans(),settlements(),facilitiesOptions()
+Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr), plans(), settlements(), facilitiesOptions()
 {
     cout << "configFilePath " << configFilePath << endl;
     std::ifstream file(configFilePath);
@@ -70,29 +70,33 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
 
 void Simulation::operator=(const Simulation &other)
 {
-    this->isRunning = other.isRunning;
-    this->planCounter = other.planCounter;
+    // clear this instace data
     for (BaseAction *b : actionsLog)
         delete b;
-    for (BaseAction *b : other.actionsLog)
-        actionsLog.push_back(b->clone());
     for (Settlement *s : settlements)
         delete s;
-    for (Settlement *s : other.settlements)
-        settlements.push_back(s->clone());
     for (Plan p : plans)
         plans.pop_back();
-    for (const Plan &p : other.plans)
-        plans.push_back(p);
     for (FacilityType f : facilitiesOptions)
         facilitiesOptions.pop_back();
+
+    // copy other data
+    for (BaseAction *b : other.actionsLog)
+        actionsLog.push_back(b->clone());
+    for (Settlement *s : other.settlements)
+        settlements.push_back(s->clone());
+    for (const Plan &p : other.plans)
+        plans.push_back(p);
     for (FacilityType f : other.facilitiesOptions)
         facilitiesOptions.push_back(f);
+    this->isRunning = other.isRunning;
+    this->planCounter = other.planCounter;
 }
+
 void Simulation::start()
 {
     string input;
-    cout<<"The simulation has started"<<endl;
+    cout << "The simulation has started" << endl;
     while (isRunning)
     {
         std::getline(std::cin, input);
@@ -276,43 +280,26 @@ void Simulation::close()
     for (Plan p : plans)
         cout << p.toString() << endl;
 }
-Simulation::~Simulation(){
-    for(BaseAction* b:actionsLog){
+Simulation::~Simulation()
+{
+    for (BaseAction *b : actionsLog)
+    {
         delete b;
     }
-    for(Settlement* s:settlements){
+    for (Settlement *s : settlements)
+    {
         delete s;
     }
     plans.clear();
     facilitiesOptions.clear();
 }
 
-Simulation *Simulation::clone() const
-{
-    Simulation *s = new Simulation(isRunning, planCounter);
-    for (BaseAction *b : actionsLog)
-    {
-        s->actionsLog.push_back(b->clone());
-    }
-    for (Settlement *se : (*this).settlements)
-    {
-        (s->settlements).push_back(se->clone());
-    }
-    for (const Plan &p : plans)
-    {
-        (s->plans).push_back(p);
-    }
-    for (FacilityType f : facilitiesOptions)
-    {
-        (s->facilitiesOptions).push_back(f);
-    }
-    return s;
-}
 void Simulation::open()
 {
     isRunning = true;
 }
 
-const bool Simulation::planInRang(int planId) const{
-    return planId<this->planCounter&planId>=0;
+const bool Simulation::planInRang(int planId) const
+{
+    return planId < this->planCounter & planId >= 0;
 }

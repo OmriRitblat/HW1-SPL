@@ -15,8 +15,15 @@ class Simulation
 public:
     Simulation(bool isRunning, int planCounter);
     Simulation(const string &configFilePath);
+    // rule of 3
     void operator=(const Simulation &other);
+    Simulation(const Simulation &other);
     ~Simulation();
+
+    // rule of 5
+    void operator=(const Simulation &&other);
+    Simulation(const Simulation &&other);
+
     void start();
     void addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy);
     void addAction(BaseAction *action);
@@ -29,7 +36,6 @@ public:
     void step();
     void close();
     void open();
-    Simulation *clone() const;
     vector<BaseAction *> &getActionLogs();
     const bool planInRang(int planId) const;
 
