@@ -31,6 +31,7 @@ public:
     void open();
     Simulation *clone() const;
     vector<BaseAction *> &getActionLogs();
+    const bool planInRang(int planId) const;
 
 private:
     bool isRunning;

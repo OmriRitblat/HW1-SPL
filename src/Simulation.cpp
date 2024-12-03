@@ -69,13 +69,6 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
     }
 }
 
-Simulation::~Simulation()
-{
-    for (BaseAction *b : actionsLog)
-        delete b;
-    for (Settlement *s : settlements)
-        delete s;
-}
 void Simulation::operator=(const Simulation &other)
 {
     this->isRunning = other.isRunning;
@@ -323,4 +316,8 @@ Simulation *Simulation::clone() const
 void Simulation::open()
 {
     isRunning = true;
+}
+
+const bool Simulation::planInRang(int planId) const{
+    return planId<this->planCounter&planId>=0;
 }

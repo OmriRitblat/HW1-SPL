@@ -172,11 +172,8 @@ PrintPlanStatus::PrintPlanStatus(int planId) : BaseAction(), planId(planId)
 }
 void PrintPlanStatus::act(Simulation &simulation)
 {
-    Plan p=simulation.getPlan(planId);
-    if (p.getId()!=-1)
-    {
+    if(simulation.planInRang(planId))
         cout<<simulation.getPlan(planId).toString()<<endl;
-    }
     else
     {
         error("Plan doesn’t exist”");

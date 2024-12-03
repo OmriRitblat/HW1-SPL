@@ -7,7 +7,7 @@ using namespace std;
 Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilityOptions(facilityOptions), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
-Plan::Plan():plan_id(-1),settlement(Settlement("defult", SettlementType::CITY)), selectionPolicy(), status(PlanStatus::AVALIABLE), facilityOptions(vector<FacilityType>()), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0){}
+// Plan::Plan():plan_id(-1),settlement(Settlement("defult", SettlementType::CITY)), selectionPolicy(), status(PlanStatus::AVALIABLE), facilityOptions(), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0){}
 Plan::~Plan()
 {
     delete selectionPolicy;
