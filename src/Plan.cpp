@@ -117,8 +117,9 @@ void Plan::step()
     }
     for (Facility *f : underConstruction)
     {
-        if (f->step() == FacilityStatus::OPERATIONAL)
+        if (f->step() == FacilityStatus::OPERATIONAL){
             this->addFacility(f);
+        }
     }
     this->updateStatus();
 }
@@ -170,11 +171,6 @@ void Plan::addFacility(Facility *facility) /////////////////////////////////////
     else
     {
         underConstruction.push_back(facility);
-        if (selectionPolicy->getType() == SelectionPolicyType::BALANCE)
-        {
-            BalancedSelection *b = dynamic_cast<BalancedSelection *>(selectionPolicy);
-            b->addScores(getlifeQualityScoreUnderConstruction(), getEconomyScoreUnderConstruction(), getEnvironmentScoreUnderConstruction());
-        }
     }
 }
 
@@ -203,7 +199,6 @@ const string Plan::toString() const
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';
-    output << "Facilities:\n";
     for (Facility *facility : underConstruction)
     {
         if (facility)
@@ -211,7 +206,6 @@ const string Plan::toString() const
             output << facility->toString() << '\n';
         }
     }
-    cout << output.str() << endl;
     return output.str();
 }
 

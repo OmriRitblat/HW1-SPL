@@ -39,6 +39,7 @@ const string Settlement::toString() const
     return t;
 }
 
+
 SettlementType Settlement::getSettlememtType(const string s)
 {
     if (s == "1")

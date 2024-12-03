@@ -11,18 +11,15 @@ using namespace std;
 string BaseAction::getStatusString() const
 {
     string strStatus;
-    switch (status)
-    {
-    case ActionStatus::COMPLETED:
+    
+    if(status==ActionStatus::COMPLETED)
         strStatus = "COMPLETED";
-    case ActionStatus::ERROR:
+    else
         strStatus = "ERROR";
-    default:
-        strStatus = "Unknown";
-    }
-    return "Status: " + strStatus;
+    return strStatus;
 }
-BaseAction::BaseAction() {}
+BaseAction::BaseAction() :errorMsg(),status(ActionStatus::COMPLETED){
+}
 BaseAction::BaseAction(string &errorMsg, ActionStatus status) : errorMsg(errorMsg), status(status) {}
 ActionStatus BaseAction::getStatus() const
 {
@@ -45,7 +42,7 @@ const string &BaseAction::getErrorMsg() const
     return errorMsg;
 }
 
-SimulateStep::SimulateStep(const int numOfSteps) : BaseAction(), numOfSteps(numOfSteps), restNum(0)
+SimulateStep::SimulateStep(const int numOfSteps) : BaseAction(),numOfSteps(numOfSteps), restNum(0)
 {
 }
 void SimulateStep::act(Simulation &simulation)
@@ -108,7 +105,7 @@ AddPlan::~AddPlan(){
 }
 const string AddPlan::toString() const
 {
-    return "AddPlan " + settlementName + selectionPolicy + policy->toString() + BaseAction::getStatusString();
+    return "AddPlan " + settlementName + selectionPolicy + policy->toString();
 }
 AddPlan *AddPlan::clone() const
 {
@@ -136,8 +133,8 @@ AddSettlement *AddSettlement::clone() const
 }
 const string AddSettlement::toString() const
 {
-    return "AddSettlement " + settlementName + Settlement::getSettlememtTypeByString(settlementType) + BaseAction::getStatusString();
-}
+    int index =static_cast<int>(settlementType);
+    return "AddSettlement " + settlementName  +" "+ std::to_string(index);}
 
 AddFacility::AddFacility(const string &facilityName, const FacilityCategory facilityCategory, const int price, const int lifeQualityScore, const int economyScore, const int environmentScore) : BaseAction(), facilityName(facilityName), facilityCategory(facilityCategory), price(price), lifeQualityScore(lifeQualityScore), economyScore(economyScore), environmentScore(environmentScore) {}
 void AddFacility::act(Simulation &simulation)
@@ -163,8 +160,7 @@ const string AddFacility::toString() const
            std::to_string(price) +
            std::to_string(lifeQualityScore) +
            std::to_string(economyScore) +
-           std::to_string(environmentScore) +
-           BaseAction::getStatusString();
+           std::to_string(environmentScore);
 }
 
 PrintPlanStatus::PrintPlanStatus(int planId) : BaseAction(), planId(planId)
@@ -186,7 +182,7 @@ PrintPlanStatus *PrintPlanStatus::clone() const
 }
 const string PrintPlanStatus::toString() const
 {
-    return "PrintPlanStatus " + planId + BaseAction::getStatusString();
+    return "planStatus " + std::to_string(planId);
 }
 
 ChangePlanPolicy::ChangePlanPolicy(const int planId, const string &newPolicy) : BaseAction(), planId(planId), newPolicy(newPolicy) {}
@@ -233,7 +229,7 @@ ChangePlanPolicy *ChangePlanPolicy::clone() const
 }
 const string ChangePlanPolicy::toString() const
 {
-    return "ChangePlanPolicy " + planId + newPolicy + BaseAction::getStatusString();
+    return "ChangePlanPolicy " + planId + newPolicy;
 }
 
 PrintActionsLog::PrintActionsLog()
@@ -252,7 +248,7 @@ PrintActionsLog *PrintActionsLog::clone() const
 }
 const string PrintActionsLog::toString() const
 {
-    return "PrintActionsLog " + BaseAction::getStatusString();
+    return "PrintActionsLog ";
 }
 Close::Close()
 {
@@ -275,7 +271,7 @@ BackupSimulation::BackupSimulation()
 }
 void BackupSimulation::act(Simulation &simulation)
 {
-    if (!::backup)
+    if (::backup != nullptr)
     {
         delete ::backup;
     }

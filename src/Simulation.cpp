@@ -12,7 +12,7 @@ using namespace std;
 Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
-Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(10, nullptr), plans(), settlements(), facilitiesOptions()
+Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
     cout << "configFilePath " << configFilePath << endl;
     std::ifstream file(configFilePath);
@@ -185,7 +185,7 @@ void Simulation::start()
         }
         else if (words[0] == "log")
         {
-            b = new ChangePlanPolicy(std::stoi(words[1]), words[2]);
+            b = new PrintActionsLog();
         }
         else if (words[0] == "close")
         {
@@ -267,10 +267,8 @@ Plan &Simulation::getPlan(const int planID)
 }
 void Simulation::step()
 {
-    for (Plan p : plans)
-    {
-        p.step();
-    }
+    for(int i=0;i<plans.size();i++)
+        plans[i].step();
 }
 //  void Simulation::changePolicy();
 void Simulation::close()

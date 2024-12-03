@@ -84,7 +84,7 @@ const FacilityStatus &Facility::getStatus() const
 }
 const string Facility::toString() const
 {
-    return "FacilityName: " + name + "/n FacilityStatus: " + (*this).getStatusString();
+    return "FacilityName: " + name + "\n" + "FacilityStatus: " + (*this).getStatusString();
 }
 
 const string Facility::getStatusString() const
