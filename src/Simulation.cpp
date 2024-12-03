@@ -260,11 +260,7 @@ Settlement &Simulation::getSettlement(const string &settlementName)
 }
 Plan &Simulation::getPlan(const int planID)
 {
-   if (planID<plans.size() && planID>=0){
     return plans[planID];
-}
-    Plan p;
-    return p;
 }
 void Simulation::step()
 {
