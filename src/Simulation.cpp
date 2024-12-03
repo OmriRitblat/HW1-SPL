@@ -316,3 +316,7 @@ void Simulation::open()
 {
     isRunning = true;
 }
+
+const bool Simulation::planInRang(int planId) const{
+    return planId<this->planCounter&planId>=0;
+}
