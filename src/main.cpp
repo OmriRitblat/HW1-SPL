@@ -4,6 +4,13 @@
 #include "Global.h"
 #include <iostream>
 
+#include <iostream>
+#include "Simulation.h"
+#include "Facility.h"
+#include "SelectionPolicy.h"
+#include "Action.h"
+#include "Auxiliary.h"
+
 using namespace std;
 
 Simulation *backup = nullptr;

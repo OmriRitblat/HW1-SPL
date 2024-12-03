@@ -1,4 +1,4 @@
-#pragma once
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -282,6 +282,7 @@ void BackupSimulation::act(Simulation &simulation)
     {
         delete ::backup;
     }
+    //do with opertor = 
     ::backup = simulation.clone();
 }
 BackupSimulation *BackupSimulation::clone() const

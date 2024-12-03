@@ -3,6 +3,7 @@
 #include "Simulation.h"
 #include "Auxiliary.h"
 #include "fstream"
+#include "Global.h"
 #include "Action.h"
 using std::string;
 using std::vector;
@@ -99,6 +100,7 @@ void Simulation::operator=(const Simulation &other)
 void Simulation::start()
 {
     string input;
+    cout<<"The simulation has started"<<endl;
     while (isRunning)
     {
         std::getline(std::cin, input);
@@ -265,7 +267,7 @@ Settlement &Simulation::getSettlement(const string &settlementName)
 }
 Plan &Simulation::getPlan(const int planID)
 {
-   if (planID<plans.size()){
+   if (planID<plans.size() && planID>=0){
     return plans[planID];
 }
     Plan p;
@@ -282,6 +284,7 @@ void Simulation::step()
 void Simulation::close()
 {
     isRunning = false;
+    delete ::backup;
     for (Plan p : plans)
         cout << p.toString() << endl;
 }

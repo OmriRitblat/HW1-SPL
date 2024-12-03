@@ -23,7 +23,7 @@ Plan::~Plan()
         delete facility; // Deallocate memory for each facility
     }
 }
-Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
+Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement,nullptr, other.facilityOptions)
 {
     selectionPolicy=other.selectionPolicy->clone();
     for (Facility *f : other.facilities)
