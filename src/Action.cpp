@@ -71,19 +71,19 @@ AddPlan::AddPlan(const string &settlementName, const string &selectionPolicy) : 
 {
     if (selectionPolicy == "nve")
     {
-        policy = new NaiveSelection();
+        this->policy = new NaiveSelection();
     }
     else if (selectionPolicy == "bal")
     {
-        policy = new BalancedSelection(0, 0, 0);
+        this->policy = new BalancedSelection(0, 0, 0);
     }
     else if (selectionPolicy == "eco")
     {
-        policy = new EconomySelection();
+        this->policy = new EconomySelection();
     }
     else if (selectionPolicy == "env")
     {
-        policy = new SustainabilitySelection();
+        this->policy = new SustainabilitySelection();
     }
     else
     {
