@@ -48,7 +48,6 @@ public:
 
     //===================
     // should it be private??
-    const string FacilityToString(const vector<Facility *> &facilities) const;
     const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
     void updateStatus();
     void updateScore(const Facility *facility);
@@ -62,4 +61,6 @@ private:
     vector<Facility *> underConstruction;
     const vector<FacilityType> &facilityOptions;
     int life_quality_score, economy_score, environment_score;
+
+    const string FacilityToString(const vector<Facility *> &facilities);
 };
