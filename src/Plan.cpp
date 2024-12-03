@@ -24,9 +24,9 @@ Plan::~Plan()
     }
     underConstruction.clear();
 }
-Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement,nullptr, other.facilityOptions)
+Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
 {
-    selectionPolicy=other.selectionPolicy->clone();
+    selectionPolicy = other.selectionPolicy->clone();
     for (Facility *f : other.facilities)
         facilities.push_back(f->clone());
     for (Facility *f : other.underConstruction)
@@ -37,8 +37,8 @@ Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement,nullptr, ot
 }
 Plan::Plan(Plan &&other) : Plan(other.plan_id, other.settlement, other.selectionPolicy, other.facilityOptions)
 {
-    underConstruction=other.underConstruction;
-    facilities=other.facilities;
+    underConstruction = other.underConstruction;
+    facilities = other.facilities;
     other.selectionPolicy = nullptr;
     other.facilities.clear();
     other.underConstruction.clear();
@@ -115,7 +115,7 @@ void Plan::step()
             index++;
         }
     }
-    for (Facility * f:underConstruction)
+    for (Facility *f : underConstruction)
     {
         if (f->step() == FacilityStatus::OPERATIONAL)
             this->addFacility(f);
@@ -126,19 +126,19 @@ string Plan::getStatusString() const
 {
     string strStatus;
     switch (status)
-{
+    {
     case PlanStatus::AVALIABLE:
         strStatus = "AVALIABLE";
-        break;  // Prevent fall-through
+        break; // Prevent fall-through
     case PlanStatus::BUSY:
         strStatus = "BUSY";
-        break;  // Prevent fall-through
+        break; // Prevent fall-through
     default:
         strStatus = "Unknown";
-        break;  
-}
+        break;
+    }
 
-return strStatus;
+    return strStatus;
 }
 const vector<Facility *> &Plan::getFacilities() const
 {
@@ -154,7 +154,7 @@ const int Plan::findIndexInVector(const vector<Facility *> &vec, Facility *facil
     return -1; // Pointer not found
 }
 
-void Plan::addFacility(Facility *facility)////////////////////////////////////////////////////////////////////////////////////////////
+void Plan::addFacility(Facility *facility) ////////////////////////////////////////////////////////////////////////////////////////////
 {
     // check where to add the Facility
     // if the facility already in the under constructer it shloud move to the facilities vector
@@ -163,15 +163,17 @@ void Plan::addFacility(Facility *facility)//////////////////////////////////////
     {
         this->updateScore(facility);
         facilities.push_back(facility);
-//        delete underConstruction[indexInVector];
+        //        delete underConstruction[indexInVector];
         underConstruction.erase(underConstruction.begin() + indexInVector);
     }
     // else the facility enters the under construction vector
-    else{
+    else
+    {
         underConstruction.push_back(facility);
-        if(selectionPolicy->getType()==SelectionPolicyType::BALANCE){
-            BalancedSelection* b = dynamic_cast<BalancedSelection*>(selectionPolicy);
-            b->addScores(getlifeQualityScoreUnderConstruction(),getEconomyScoreUnderConstruction(),getEnvironmentScoreUnderConstruction());
+        if (selectionPolicy->getType() == SelectionPolicyType::BALANCE)
+        {
+            BalancedSelection *b = dynamic_cast<BalancedSelection *>(selectionPolicy);
+            b->addScores(getlifeQualityScoreUnderConstruction(), getEconomyScoreUnderConstruction(), getEnvironmentScoreUnderConstruction());
         }
     }
 }
@@ -194,7 +196,6 @@ void Plan::updateStatus()
 const string Plan::toString() const
 {
     std::ostringstream output;
-    string facil=this->FacilityToString(this->underConstruction);
     output << "PlanID: " << plan_id << '\n';
     output << "SettlementName: " << settlement.getName() << '\n';
     output << "PlanStatus: " << this->getStatusString() << '\n';
@@ -202,24 +203,31 @@ const string Plan::toString() const
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';
-    output << "Facilities:\n"<<facil;
-    cout<<output.str()<<endl;
+    output << "Facilities:\n";
+    for (Facility *facility : underConstruction)
+    {
+        if (facility)
+        { // Ensure pointer is not null
+            output << facility->toString() << '\n';
+        }
+    }
+    cout << output.str() << endl;
     return output.str();
 }
 
 // Updated Plan::collectFacilities
-const string Plan::FacilityToString(const vector<Facility *> &facilities) const
-{
-    std::ostringstream facilityOutput;
-    for (Facility * facility : facilities)
-    {
-        if (facility)
-        { // Ensure pointer is not null
-            facilityOutput << facility->toString() << '\n';
-        }
-    }
-    return facilityOutput.str();
-}
+// const string Plan::FacilityToString(const vector<Facility *> &facilities)
+// {
+//     std::ostringstream facilityOutput;
+//     for (Facility *facility : facilities)
+//     {
+//         if (facility)
+//         { // Ensure pointer is not null
+//             facilityOutput << facility->toString() << '\n';
+//         }
+//     }
+//     return facilityOutput.str();
+// }
 const int Plan::getId() const
 {
     return plan_id;
