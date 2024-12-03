@@ -25,7 +25,6 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
         std::string line;
         while (std::getline(file, line))
         {
-            // Parse the line into arguments
             std::vector<std::string> arguments = Auxiliary::parseArguments(line);
             if (arguments[0] != "#")
             {
@@ -69,13 +68,6 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
     }
 }
 
-Simulation::~Simulation()
-{
-    for (BaseAction *b : actionsLog)
-        delete b;
-    for (Settlement *s : settlements)
-        delete s;
-}
 void Simulation::operator=(const Simulation &other)
 {
     this->isRunning = other.isRunning;
