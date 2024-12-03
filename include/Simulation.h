@@ -16,12 +16,12 @@ public:
     Simulation(bool isRunning, int planCounter);
     Simulation(const string &configFilePath);
     // rule of 3
-    void operator=(const Simulation &other);
+    Simulation& operator=(const Simulation &other);
     Simulation(const Simulation &other);
     ~Simulation();
 
     // rule of 5
-    void operator=(const Simulation &&other);
+    Simulation& operator=(const Simulation &&other);
     Simulation(const Simulation &&other);
 
     void start();

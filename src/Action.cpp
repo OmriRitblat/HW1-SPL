@@ -22,7 +22,7 @@ string BaseAction::getStatusString() const
     }
     return "Status: " + strStatus;
 }
-BaseAction::BaseAction() {}
+BaseAction::BaseAction(): errorMsg(),status(ActionStatus::COMPLETED) {}
 BaseAction::BaseAction(string &errorMsg, ActionStatus status) : errorMsg(errorMsg), status(status) {}
 ActionStatus BaseAction::getStatus() const
 {
@@ -103,7 +103,8 @@ void AddPlan::act(Simulation &simulation)
         simulation.addPlan(simulation.getSettlement(settlementName), policy);
     }
 }
-AddPlan::~AddPlan(){
+AddPlan::~AddPlan()
+{
     delete policy;
 }
 const string AddPlan::toString() const
@@ -172,8 +173,8 @@ PrintPlanStatus::PrintPlanStatus(int planId) : BaseAction(), planId(planId)
 }
 void PrintPlanStatus::act(Simulation &simulation)
 {
-    if(simulation.planInRang(planId))
-        cout<<simulation.getPlan(planId).toString()<<endl;
+    if (simulation.planInRang(planId))
+        cout << simulation.getPlan(planId).toString() << endl;
     else
     {
         error("Plan doesn’t exist”");
@@ -279,8 +280,8 @@ void BackupSimulation::act(Simulation &simulation)
     {
         delete ::backup;
     }
-    //do with opertor = 
-    ::backup =&simulation;
+    // do with opertor =
+    ::backup = &simulation;
 }
 BackupSimulation *BackupSimulation::clone() const
 {

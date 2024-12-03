@@ -49,7 +49,7 @@ SettlementType Settlement::getSettlememtType(const string s)
         return SettlementType::METROPOLIS;
 }
 
-const int Settlement::maxPacilities() const
+const unsigned int Settlement::maxPacilities() const
 {
     int maxPacil = 0;
     if (type == SettlementType::CITY)

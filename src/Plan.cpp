@@ -4,10 +4,10 @@
 #include <sstream>
 using namespace std;
 
-Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilityOptions(facilityOptions), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0)
+Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
-// Plan::Plan():plan_id(-1),settlement(Settlement("defult", SettlementType::CITY)), selectionPolicy(), status(PlanStatus::AVALIABLE), facilityOptions(), underConstruction(), facilities(), life_quality_score(0), economy_score(0), environment_score(0){}
+
 Plan::~Plan()
 {
     delete selectionPolicy;
@@ -106,7 +106,7 @@ void Plan::step()
 {
     if (this->status == PlanStatus::AVALIABLE)
     {
-        int index(underConstruction.size());
+        unsigned int index(underConstruction.size());
         while (index < settlement.maxPacilities())
         {
             FacilityType type = selectionPolicy->selectFacility(facilityOptions);
@@ -206,10 +206,7 @@ const string Plan::toString() const
     output << "Facilities:\n";
     for (Facility *facility : underConstruction)
     {
-        if (facility)
-        { // Ensure pointer is not null
-            output << facility->toString() << '\n';
-        }
+        output << facility->toString() << '\n';
     }
     cout << output.str() << endl;
     return output.str();

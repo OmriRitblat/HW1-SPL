@@ -50,6 +50,7 @@ Facility *Facility::clone() const
     Facility *f = new Facility(this->name, this->settlementName, this->category, this->price, this->lifeQuality_score, this->economy_score, this->environment_score);
     f->setStatus(this->status);
     f->timeLeft = this->timeLeft;
+    return f;
 }
 
 Facility::Facility(const FacilityType &type, const string &settlementName) : FacilityType(type), settlementName(settlementName), status(FacilityStatus::UNDER_CONSTRUCTIONS), timeLeft(type.getCost())

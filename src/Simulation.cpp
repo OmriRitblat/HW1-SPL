@@ -69,7 +69,7 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
     }
 }
 
-void Simulation::operator=(const Simulation &other)
+Simulation &Simulation::operator=(const Simulation &other)
 {
     // clear this instace data
     for (BaseAction *b : actionsLog)
@@ -92,6 +92,7 @@ void Simulation::operator=(const Simulation &other)
         facilitiesOptions.push_back(f);
     this->isRunning = other.isRunning;
     this->planCounter = other.planCounter;
+    return *this;
 }
 
 void Simulation::start()
@@ -220,11 +221,27 @@ void Simulation::addAction(BaseAction *action)
 }
 bool Simulation::addSettlement(Settlement *settlement)
 {
-    settlements.push_back(settlement);
+    try
+    {
+        settlements.push_back(settlement);
+        return true;
+    }
+    catch (const std::exception &e)
+    {
+        return false;
+    }
 }
 bool Simulation::addFacility(FacilityType facility)
 {
-    facilitiesOptions.push_back(facility);
+    try
+    {
+        facilitiesOptions.push_back(facility);
+        return true;
+    }
+    catch (const std::exception &e)
+    {
+        return false;
+    }
 }
 bool Simulation::isSettlementExists(const string &settlementName)
 {
@@ -254,6 +271,7 @@ bool Simulation::isFacilityExists(const string &facilityName)
 }
 Settlement &Simulation::getSettlement(const string &settlementName)
 {
+
     for (Settlement *s : settlements)
     {
         if (s->getName() == settlementName)
@@ -261,6 +279,10 @@ Settlement &Simulation::getSettlement(const string &settlementName)
             return *s;
         }
     }
+    //======================
+    // is it ok to return it?
+    Settlement *s = new Settlement("ERROR", SettlementType::CITY);
+    return *s;
 }
 Plan &Simulation::getPlan(const int planID)
 {
@@ -302,5 +324,5 @@ void Simulation::open()
 
 const bool Simulation::planInRang(int planId) const
 {
-    return planId < this->planCounter & planId >= 0;
+    return (planId < this->planCounter && planId >= 0);
 }

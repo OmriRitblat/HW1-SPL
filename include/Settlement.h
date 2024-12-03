@@ -20,7 +20,7 @@ public:
     const string &getName() const;
     SettlementType getType() const;
     const string toString() const;
-    const int maxPacilities() const;
+    const unsigned int maxPacilities() const;
     Settlement *clone() const;
     static SettlementType getSettlememtType(const string s);
     static string getSettlememtTypeByString(const SettlementType st);

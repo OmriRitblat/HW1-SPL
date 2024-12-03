@@ -58,7 +58,7 @@ class EconomySelection: public SelectionPolicy {
         ~EconomySelection() override = default;
         SelectionPolicyType getType() const;
     private:
-        int lastSelectedIndex;
+        unsigned int lastSelectedIndex;
 
 };
 

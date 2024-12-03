@@ -1,4 +1,4 @@
-#pragma once
+
 #include <vector>
 #include "SelectionPolicy.h"
 using std::vector;
@@ -10,13 +10,13 @@ NaiveSelection::NaiveSelection(const NaiveSelection &n) : SelectionPolicy(), las
 const FacilityType &NaiveSelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
     lastSelectedIndex++;
-    if (facilitiesOptions.size() <= lastSelectedIndex)
+    if (facilitiesOptions.size() <= (unsigned)lastSelectedIndex)
     {
         lastSelectedIndex = 0;
     }
     return facilitiesOptions[lastSelectedIndex];
 }
-const string NaiveSelection:: toString() const 
+const string NaiveSelection::toString() const
 {
     return "nve";
 }
@@ -24,7 +24,8 @@ NaiveSelection *NaiveSelection::clone() const
 {
     return new NaiveSelection(*this);
 }
-SelectionPolicyType NaiveSelection::getType() const{
+SelectionPolicyType NaiveSelection::getType() const
+{
     return SelectionPolicyType::NAIVE;
 }
 BalancedSelection::BalancedSelection(int LifeQualityScore, int EconomyScore, int EnvironmentScore) : SelectionPolicy(), LifeQualityScore(LifeQualityScore), EconomyScore(EconomyScore), EnvironmentScore(EnvironmentScore) {}
@@ -57,7 +58,7 @@ const FacilityType &BalancedSelection::selectFacility(const vector<FacilityType>
     }
     return facilitiesOptions[min_index];
 }
-const string BalancedSelection::toString() const 
+const string BalancedSelection::toString() const
 {
     return "bal";
 }
@@ -69,7 +70,8 @@ BalancedSelection *BalancedSelection::clone() const
 BalancedSelection::BalancedSelection(const BalancedSelection &b) : SelectionPolicy(), LifeQualityScore(b.LifeQualityScore), EconomyScore(b.EconomyScore), EnvironmentScore(b.EnvironmentScore)
 {
 }
-SelectionPolicyType BalancedSelection::getType() const{
+SelectionPolicyType BalancedSelection::getType() const
+{
     return SelectionPolicyType::BALANCE;
 }
 EconomySelection::EconomySelection() : lastSelectedIndex(-1)
@@ -77,26 +79,26 @@ EconomySelection::EconomySelection() : lastSelectedIndex(-1)
 }
 void BalancedSelection::addScores(int LifeQualityScore, int EconomyScore, int EnvironmentScore)
 {
-    this->LifeQualityScore=this->LifeQualityScore+LifeQualityScore;
-    this->EconomyScore=this->EconomyScore+EconomyScore;
-    this->EnvironmentScore=this->EnvironmentScore+EnvironmentScore;
+    this->LifeQualityScore = this->LifeQualityScore + LifeQualityScore;
+    this->EconomyScore = this->EconomyScore + EconomyScore;
+    this->EnvironmentScore = this->EnvironmentScore + EnvironmentScore;
 }
 const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    for(int i=lastSelectedIndex+1; i<facilitiesOptions.size();i++)
+    for (unsigned int i = lastSelectedIndex + 1; i <facilitiesOptions.size(); i++)
     {
         if (facilitiesOptions.size() <= i)
         {
-            i=0;
+            i = 0;
         }
         if (facilitiesOptions[i].getCategory() == FacilityCategory::ECONOMY)
         {
-            lastSelectedIndex=i;
+            lastSelectedIndex = i;
             return facilitiesOptions[i];
         }
     }
 }
-const string EconomySelection::toString() const 
+const string EconomySelection::toString() const
 {
     return "eco";
 }
@@ -107,14 +109,15 @@ EconomySelection *EconomySelection::clone() const
 EconomySelection::EconomySelection(const EconomySelection &e) : SelectionPolicy(), lastSelectedIndex(e.lastSelectedIndex)
 {
 }
-SelectionPolicyType EconomySelection::getType() const{
+SelectionPolicyType EconomySelection::getType() const
+{
     return SelectionPolicyType::ECO;
 }
 SustainabilitySelection::SustainabilitySelection() : SelectionPolicy(), lastSelectedIndex(-1) {}
 const FacilityType &SustainabilitySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
     lastSelectedIndex++;
-    if (facilitiesOptions.size() <= lastSelectedIndex)
+    if (facilitiesOptions.size() <= (unsigned) lastSelectedIndex)
     {
         lastSelectedIndex = 0;
     }
@@ -129,15 +132,16 @@ const FacilityType &SustainabilitySelection::selectFacility(const vector<Facilit
         }
     }
 }
-const string SustainabilitySelection::toString() const 
+const string SustainabilitySelection::toString() const
 {
-    return "";
+    return "sub";
 }
 SustainabilitySelection *SustainabilitySelection::clone() const
 {
     return new SustainabilitySelection(*this);
 }
-SustainabilitySelection::SustainabilitySelection(const SustainabilitySelection &s) :SelectionPolicy(), lastSelectedIndex(s.lastSelectedIndex) {}
-SelectionPolicyType SustainabilitySelection::getType() const{
+SustainabilitySelection::SustainabilitySelection(const SustainabilitySelection &s) : SelectionPolicy(), lastSelectedIndex(s.lastSelectedIndex) {}
+SelectionPolicyType SustainabilitySelection::getType() const
+{
     return SelectionPolicyType::SUB;
 }
