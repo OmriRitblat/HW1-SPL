@@ -206,7 +206,7 @@ void Simulation::start()
         {
             b = new PrintPlanStatus(std::stoi(words[1]));
         }
-        else if (words[0] == "changePolicy"&& (words.size()==2))
+        else if (words[0] == "changePolicy"&& (words.size()==3))
         {
             b = new ChangePlanPolicy(std::stoi(words[1]), words[2]);
         }
@@ -243,7 +243,8 @@ void Simulation::start()
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)
 {
-    plans.push_back(Plan(planCounter, settlement, selectionPolicy->clone(), facilitiesOptions));
+    SelectionPolicy* t=selectionPolicy->clone();
+    plans.push_back(Plan(planCounter, settlement, t , facilitiesOptions));
     planCounter++;
 }
 
@@ -327,9 +328,8 @@ void Simulation::step()
 void Simulation::close()
 {
     isRunning = false;
-    delete ::backup;
     for (Plan p : plans)
-        cout << p.toString() << endl;
+        cout << p.sumUpSTotring() << endl;
 }
 Simulation::~Simulation()
 {
@@ -337,12 +337,12 @@ Simulation::~Simulation()
     {
         delete b;
     }
+    actionsLog.clear();
     for (Settlement *s : settlements)
     {
         delete s;
     }
-    plans.clear();
-    facilitiesOptions.clear();
+    settlements.clear();
 }
 
 void Simulation::open()

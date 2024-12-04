@@ -6,7 +6,6 @@ using namespace std;
 
 Plan::Plan(const int planId, const Settlement & settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
 {
-    this->settlement=
 }
 
 Plan::~Plan()
@@ -14,14 +13,13 @@ Plan::~Plan()
     delete selectionPolicy;
     for (Facility *facility : facilities)
     {
-        delete facility; // Deallocate memory for each facility
+        delete facility;
     }
-    facilities.clear(); // Clear the vector (remove all elements)
+    facilities.clear();
 
-    // Release memory for underConstruction
     for (Facility *facility : underConstruction)
     {
-        delete facility; // Deallocate memory for each facility
+        delete facility;
     }
     underConstruction.clear();
 }
@@ -99,6 +97,7 @@ void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
     {
         cout << "plan ID: " << plan_id << endl;
         cout << "previousPolicy: " << (this->selectionPolicy)->toString() << endl;
+        delete this->selectionPolicy;
         this->selectionPolicy = selectionPolicy->clone();
         cout << "newPolicy: " << (this->selectionPolicy)->toString() << endl;
     }
@@ -209,7 +208,15 @@ const string Plan::toString() const
     }
     return output.str();
 }
-
+const string Plan::sumUpSTotring() const{
+    std::ostringstream output;
+    output << "PlanID: " << plan_id << '\n';
+    output << "SettlementName: " << settlement.getName() << '\n';
+    output << "LifeQualityScore: " << life_quality_score << '\n';
+    output << "EconomyScore: " << economy_score << '\n';
+    output << "EnvironmentScore: " << environment_score;
+    return output.str(); 
+}
 // Updated Plan::collectFacilities
 // const string Plan::FacilityToString(const vector<Facility *> &facilities)
 // {

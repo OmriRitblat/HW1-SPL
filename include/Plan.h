@@ -45,7 +45,7 @@ public:
     void addFacility(Facility *facility);
     void NewFunction(Facility *facility);
     const string toString() const;
-
+    const string sumUpSTotring() const;
     //===================
     // should it be private??
     const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
