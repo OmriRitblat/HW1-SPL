@@ -198,6 +198,10 @@ const string Plan::toString() const
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';
+    for (unsigned int i=0;i<facilities.size();i++)
+    {
+        output << facilities[i]->toString() << '\n';
+    }
     for (unsigned int i=0;i<underConstruction.size();i++)
     {
         output << underConstruction[i]->toString() << '\n';

@@ -89,45 +89,36 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
 
 Simulation &Simulation::operator=(const Simulation &other)
 {
-    // clear this instace data
-    for(unsigned int i=0;i<actionsLog.size();i++){
-        delete actionsLog[i];
-    }
-    for(int i=0;i<actionsLog.size();i++){
-        actionsLog.pop_back();
-    }
-    for(unsigned int i=0;i<settlements.size();i++){
-        delete settlements[i];
-    }
-    for(int i=0;i<settlements.size();i++){
-        settlements.pop_back();
-    }
-    for(int i=0;i<plans.size();i++){
-        plans.pop_back();
-    }
-    for(int i=0;i<facilitiesOptions.size();i++){
-        facilitiesOptions.pop_back();
-    }
+    if (this == &other)
+        return *this;
 
-    // copy other data
-    for (int i=0;i<other.actionsLog.size();i++){
-        actionsLog.push_back(other.actionsLog[i]->clone());
-    }
-    for (int i=0;i<other.settlements.size();i++){
-        settlements.push_back(other.settlements[i]->clone());
-    }
-    for (const Plan p : other.plans) {
-        plans.push_back(Plan(p));
-    }
-    for (const FacilityType fType : other.facilitiesOptions) {
-        facilitiesOptions.push_back(FacilityType(fType));
-    }
+    
+    // for (auto action : actionsLog)
+    //     delete action;
+    actionsLog.clear();
 
-    for(int i=0;i<other.facilitiesOptions.size();i++){
-        facilitiesOptions.push_back(other.facilitiesOptions[i]);
-    }
-    this->isRunning = other.isRunning;
-    this->planCounter = other.planCounter;
+    // for (auto settlement : settlements)
+    //     delete settlement;
+    settlements.clear();
+
+    plans.clear();
+    facilitiesOptions.clear();
+
+    // Copy data from 'other'
+    for (const auto action : other.actionsLog)
+        actionsLog.push_back(action->clone());
+
+    for (const auto settlement : other.settlements)
+        settlements.push_back(settlement->clone());
+
+    for (const auto &plan : other.plans)
+        plans.push_back(plan);
+
+    for (const auto &facility : other.facilitiesOptions)
+        facilitiesOptions.push_back(facility);
+
+    isRunning = other.isRunning;
+    planCounter = other.planCounter;
     return *this;
 }
 
