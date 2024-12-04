@@ -2,7 +2,8 @@ step 1
 planStatus 0
 planStatus 1
 settlement anotherVillage 0
-backuplog
+backup
+log
 plan anotherVillage bal
 planStatus 2
 restore
