@@ -127,6 +127,7 @@ void Simulation::start()
 {
     string input;
     cout << "The simulation has started" << endl;
+    bool suc=true;
     while (isRunning)
     {
         std::getline(std::cin, input);
@@ -231,10 +232,13 @@ void Simulation::start()
         }
         else
         {
+            suc==false;
             cout << "Wrong Syntax" << endl;
         }
-        b->act(*this);
-        addAction(b);
+        if(suc){
+            b->act(*this);
+            addAction(b);
+        }
     }
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)
