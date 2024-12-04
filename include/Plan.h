@@ -61,6 +61,4 @@ private:
     vector<Facility *> underConstruction;
     const vector<FacilityType> &facilityOptions;
     int life_quality_score, economy_score, environment_score;
-
-    const string FacilityToString(const vector<Facility *> &facilities);
 };
