@@ -301,7 +301,7 @@ RestoreSimulation::RestoreSimulation()
 }
 void RestoreSimulation::act(Simulation &simulation)
 {
-    if (backup!=nullptr)
+    if (backup != nullptr)
     {
         simulation = *(backup);
     }

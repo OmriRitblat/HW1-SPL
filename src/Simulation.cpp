@@ -349,7 +349,6 @@ void Simulation::step()
     for(int i=0;i<plans.size();i++)
         plans[i].step();
 }
-//  void Simulation::changePolicy();
 void Simulation::close()
 {
     isRunning = false;
