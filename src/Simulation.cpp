@@ -91,14 +91,12 @@ Simulation &Simulation::operator=(const Simulation &other)
 {
     if (this == &other)
         return *this;
-
-    
-    // for (auto action : actionsLog)
-    //     delete action;
+    for (auto action : actionsLog)
+        delete action;
     actionsLog.clear();
 
-    // for (auto settlement : settlements)
-    //     delete settlement;
+    for (auto settlement : settlements)
+        delete settlement;
     settlements.clear();
 
     plans.clear();
@@ -324,7 +322,6 @@ void Simulation::step()
     for(int i=0;i<plans.size();i++)
         plans[i].step();
 }
-//  void Simulation::changePolicy();
 void Simulation::close()
 {
     isRunning = false;

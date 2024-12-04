@@ -4,7 +4,7 @@
 #include <sstream>
 using namespace std;
 
-Plan::Plan(const int planId, const Settlement & settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
+Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
 
@@ -114,9 +114,10 @@ void Plan::step()
             index++;
         }
     }
-    for (unsigned int i=0;i<underConstruction.size();i++)
+    for (unsigned int i = 0; i < underConstruction.size(); i++)
     {
-        if (underConstruction[i]->step() == FacilityStatus::OPERATIONAL){
+        if (underConstruction[i]->step() == FacilityStatus::OPERATIONAL)
+        {
             this->addFacility(underConstruction[i]);
         }
     }
@@ -198,38 +199,26 @@ const string Plan::toString() const
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score << '\n';
-    for (unsigned int i=0;i<facilities.size();i++)
+    for (unsigned int i = 0; i < facilities.size(); i++)
     {
         output << facilities[i]->toString() << '\n';
     }
-    for (unsigned int i=0;i<underConstruction.size();i++)
+    for (unsigned int i = 0; i < underConstruction.size(); i++)
     {
         output << underConstruction[i]->toString() << '\n';
     }
     return output.str();
 }
-const string Plan::sumUpSTotring() const{
+const string Plan::sumUpSTotring() const
+{
     std::ostringstream output;
     output << "PlanID: " << plan_id << '\n';
     output << "SettlementName: " << settlement.getName() << '\n';
     output << "LifeQualityScore: " << life_quality_score << '\n';
     output << "EconomyScore: " << economy_score << '\n';
     output << "EnvironmentScore: " << environment_score;
-    return output.str(); 
+    return output.str();
 }
-// Updated Plan::collectFacilities
-// const string Plan::FacilityToString(const vector<Facility *> &facilities)
-// {
-//     std::ostringstream facilityOutput;
-//     for (Facility *facility : facilities)
-//     {
-//         if (facility)
-//         { // Ensure pointer is not null
-//             facilityOutput << facility->toString() << '\n';
-//         }
-//     }
-//     return facilityOutput.str();
-// }
 const int Plan::getId() const
 {
     return plan_id;
