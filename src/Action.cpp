@@ -219,6 +219,7 @@ void ChangePlanPolicy::act(Simulation &simulation)
         {
             simulation.getPlan(planId).setSelectionPolicy(policy);
         }
+        delete policy;
     }
     else
     {
@@ -294,7 +295,7 @@ RestoreSimulation::RestoreSimulation()
 }
 void RestoreSimulation::act(Simulation &simulation)
 {
-    if (backup!=nullptr)
+    if (backup != nullptr)
     {
         simulation = *(::backup);
     }
