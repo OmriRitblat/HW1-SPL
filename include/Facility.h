@@ -28,7 +28,7 @@ public:
     int getEconomyScore() const;
     FacilityCategory getCategory() const;
     // not in use
-    static const string getCategoryString(FacilityCategory fCategory) ;
+    static const string getCategoryString(FacilityCategory fCategory);
     static FacilityCategory getFacilityCategory(const string s);
 
 protected:
@@ -53,7 +53,7 @@ public:
     const FacilityStatus &getStatus() const;
     const string toString() const;
     const string getStatusString() const;
-    Facility *clone()const;
+    Facility *clone() const;
 
 private:
     const string settlementName;
