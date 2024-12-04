@@ -278,8 +278,7 @@ void BackupSimulation::act(Simulation &simulation)
     {
         delete ::backup;
     }
-    // do with opertor =
-    ::backup = &simulation;
+    ::backup = new Simulation(simulation);
 }
 BackupSimulation *BackupSimulation::clone() const
 {
