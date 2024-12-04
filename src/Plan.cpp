@@ -109,8 +109,7 @@ void Plan::step()
         unsigned int index(underConstruction.size());
         while (index < settlement.maxPacilities())
         {
-            FacilityType type = selectionPolicy->selectFacility(facilityOptions);
-            Facility *facility = new Facility(type, settlement.getName());
+            Facility *facility = new Facility(selectionPolicy->selectFacility(facilityOptions), settlement.getName());
             this->addFacility(facility);
             index++;
         }
