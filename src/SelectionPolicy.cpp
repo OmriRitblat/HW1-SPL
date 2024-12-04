@@ -138,7 +138,7 @@ const FacilityType &SustainabilitySelection::selectFacility(const vector<Facilit
     }
 const string SustainabilitySelection::toString() const 
 {
-    return "sub";
+    return "env";
 }
 SustainabilitySelection *SustainabilitySelection::clone() const
 {
@@ -147,5 +147,5 @@ SustainabilitySelection *SustainabilitySelection::clone() const
 SustainabilitySelection::SustainabilitySelection(const SustainabilitySelection &s) : SelectionPolicy(), lastSelectedIndex(s.lastSelectedIndex) {}
 SelectionPolicyType SustainabilitySelection::getType() const
 {
-    return SelectionPolicyType::SUB;
+    return SelectionPolicyType::ENV;
 }

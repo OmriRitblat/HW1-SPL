@@ -8,7 +8,7 @@ enum class SelectionPolicyType
     BALANCE,
     NAIVE,
     ECO,
-    SUB
+    ENV
 };
 class SelectionPolicy {
     public:

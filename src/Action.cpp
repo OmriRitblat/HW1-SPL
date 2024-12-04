@@ -103,7 +103,7 @@ void AddPlan::act(Simulation &simulation)
 }
 AddPlan::~AddPlan()
 {
-    policy = nullptr;
+    delete policy;
 }
 const string AddPlan::toString() const
 {

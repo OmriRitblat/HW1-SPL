@@ -98,7 +98,7 @@ void Plan::setSelectionPolicy(SelectionPolicy *selectionPolicy)
     {
         cout << "plan ID: " << plan_id << endl;
         cout << "previousPolicy: " << (this->selectionPolicy)->toString() << endl;
-        this->selectionPolicy = selectionPolicy;
+        this->selectionPolicy = selectionPolicy->clone();
         cout << "newPolicy: " << (this->selectionPolicy)->toString() << endl;
     }
 }
@@ -115,10 +115,10 @@ void Plan::step()
             index++;
         }
     }
-    for (Facility *f : underConstruction)
+    for (unsigned int i=0;i<underConstruction.size();i++)
     {
-        if (f->step() == FacilityStatus::OPERATIONAL){
-            this->addFacility(f);
+        if (underConstruction[i]->step() == FacilityStatus::OPERATIONAL){
+            this->addFacility(underConstruction[i]);
         }
     }
     this->updateStatus();

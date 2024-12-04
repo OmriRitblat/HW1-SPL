@@ -1,12 +1,9 @@
 settlement adi 0
-settlement adi 1
 settlement omri 2
 plan adi eco
-plan adi eco
-plan adi eco
 plan adi bal
-plan omri sub
-plan omri nav
+plan omri env
+plan omri nve
 step 3
 planStatus 0
 planStatus 1

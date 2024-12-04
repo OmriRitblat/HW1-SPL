@@ -107,30 +107,30 @@ Simulation &Simulation::operator=(const Simulation &other)
 
 void Simulation::start()
 {
-    std::ifstream file("tests.txt");
+    // std::ifstream file("example.txt");
     
     string input;
     cout << "The simulation has started" << endl;
     while (isRunning)
     {
         bool suc=true;
-        //std::getline(std::cin, input);
-        BaseAction *b;
-        if (!file.is_open())
-        {
-            std::cerr << "Error: Could not open file at " << "texts.txt" << std::endl;
-        }
-        else
-        {
-            std::string line;
-            while (std::getline(file, line))
-            {
+        std::getline(std::cin, input);
+        // BaseAction *b;
+        // if (!file.is_open())
+        // {
+        //     std::cerr << "Error: Could not open file at " << "example.txt" << std::endl;
+        // }
+        // else
+        // {
+        //     std::string line;
+        //     while (std::getline(file, line))
+        //     {
 
-                std::vector<std::string> words = Auxiliary::parseArguments(line);
+        //         std::vector<std::string> words = Auxiliary::parseArguments(line);
                 //=======================================
                 // not part of the test code
                 //=======================================
-                // std::vector<std::string> words = Auxiliary::parseArguments(input);
+                std::vector<std::string> words = Auxiliary::parseArguments(input);
                 BaseAction *b;
                 if (words[0] == "step")
                 {
@@ -238,8 +238,8 @@ void Simulation::start()
                  b->act(*this);
                 addAction(b);
                 }
-            }
-        }
+            // }
+        // }
     }
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)
@@ -312,8 +312,6 @@ Settlement &Simulation::getSettlement(const string &settlementName)
             return *s;
         }
     }
-    //======================
-    // is it ok to return it?
     Settlement *s = new Settlement("ERROR", SettlementType::CITY);
     return *s;
 }
