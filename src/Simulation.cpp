@@ -71,24 +71,30 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
 Simulation &Simulation::operator=(const Simulation &other)
 {
     // clear this instace data
-    for (BaseAction *b : actionsLog)
-        delete b;
-    for (Settlement *s : settlements)
-        delete s;
-    for (Plan p : plans)
-        plans.pop_back();
-    for (FacilityType f : facilitiesOptions)
-        facilitiesOptions.pop_back();
+    for(unsigned int i=0;i<actionsLog.size();i++){
+        delete actionsLog[i];
+    }
+    actionsLog.clear();
+    for(unsigned int i=0;i<settlements.size();i++){
+        delete settlements[i];
+    }
+    settlements.clear();
+    plans.clear();
+    facilitiesOptions.clear();
 
     // copy other data
-    for (BaseAction *b : other.actionsLog)
-        actionsLog.push_back(b->clone());
-    for (Settlement *s : other.settlements)
-        settlements.push_back(s->clone());
-    for (const Plan &p : other.plans)
-        plans.push_back(p);
-    for (FacilityType f : other.facilitiesOptions)
-        facilitiesOptions.push_back(f);
+    for (int i=0;i<other.actionsLog.size();i++){
+        actionsLog.push_back(other.actionsLog[i]->clone());
+    }
+    for (int i=0;i<other.settlements.size();i++){
+        settlements.push_back(other.settlements[i]->clone());
+    }
+    for(int i=0;i<other.plans.size();i++){
+        plans.push_back(other.plans[i]);
+    }
+    for(int i=0;i<other.facilitiesOptions.size();i++){
+        facilitiesOptions.push_back(other.facilitiesOptions[i]);
+    }
     this->isRunning = other.isRunning;
     this->planCounter = other.planCounter;
     return *this;
@@ -100,6 +106,7 @@ void Simulation::start()
     cout << "The simulation has started" << endl;
     while (isRunning)
     {
+        bool suc=true;
         std::getline(std::cin, input);
         std::vector<std::string> words = Auxiliary::parseArguments(input);
         BaseAction *b;
@@ -203,9 +210,13 @@ void Simulation::start()
         else
         {
             cout << "Wrong Syntax" << endl;
+            suc=false;
         }
+        if(suc){
         b->act(*this);
         addAction(b);
+        }
+
     }
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)

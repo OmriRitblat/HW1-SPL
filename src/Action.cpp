@@ -103,7 +103,7 @@ void AddPlan::act(Simulation &simulation)
 }
 AddPlan::~AddPlan()
 {
-    delete policy;
+    policy = nullptr;
 }
 const string AddPlan::toString() const
 {
@@ -295,7 +295,7 @@ RestoreSimulation::RestoreSimulation()
 }
 void RestoreSimulation::act(Simulation &simulation)
 {
-    if (backup)
+    if (backup!=nullptr)
     {
         simulation = *(::backup);
     }

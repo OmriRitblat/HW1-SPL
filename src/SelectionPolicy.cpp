@@ -73,7 +73,7 @@ SelectionPolicyType BalancedSelection::getType() const
 {
     return SelectionPolicyType::BALANCE;
 }
-EconomySelection::EconomySelection() : lastSelectedIndex(0)
+EconomySelection::EconomySelection() :SelectionPolicy(), lastSelectedIndex(0)
 {
 }
 const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
