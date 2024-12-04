@@ -146,11 +146,11 @@ void Simulation::start()
             int numberOfSteps = std::stoi(words[1]);
             b = new SimulateStep(numberOfSteps);
         }
-        else if (words[0] == "plan")
+        else if ((words[0] == "plan") && (words.size()==3))
         {
             b = new AddPlan(words[1], words[2]);
         }
-        else if (words[0] == "settlement")
+        else if (words[0] == "settlement"&& (words.size()==3))
         {
             SettlementType setType;
             bool SettlementTypeEx = false;
@@ -178,7 +178,7 @@ void Simulation::start()
                 b = new AddSettlement(words[1], setType);
             }
         }
-        else if (words[0] == "facility")
+        else if (words[0] == "facility" && (words.size()==7))
         {
             FacilityCategory c;
             bool CategoryEx = false;
@@ -210,15 +210,15 @@ void Simulation::start()
                 b = new AddFacility(words[1], c, price, life_impact, eco_impact, env_impact);
             }
         }
-        else if (words[0] == "planStatus")
+        else if (words[0] == "planStatus"&& (words.size()==2))
         {
             b = new PrintPlanStatus(std::stoi(words[1]));
         }
-        else if (words[0] == "changePolicy")
+        else if (words[0] == "changePolicy"&& (words.size()==2))
         {
             b = new ChangePlanPolicy(std::stoi(words[1]), words[2]);
         }
-        else if (words[0] == "planStatus")
+        else if (words[0] == "planStatus"&& (words.size()==2))
         {
             b = new PrintPlanStatus(std::stoi(words[1]));
         }
@@ -244,12 +244,11 @@ void Simulation::start()
         }
         b->act(*this);
         addAction(b);
->>>>>>> refs/remotes/origin/main
     }
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)
 {
-    plans.push_back(Plan(planCounter, settlement, selectionPolicy, facilitiesOptions));
+    plans.push_back(Plan(planCounter, settlement, selectionPolicy->clone(), facilitiesOptions));
     planCounter++;
 }
 

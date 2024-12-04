@@ -71,9 +71,9 @@ FacilityStatus Facility::step()
     {
         timeLeft--;
         if (timeLeft == 0)
-            status = FacilityStatus::OPERATIONAL;
+            this->setStatus(FacilityStatus::OPERATIONAL);
     }
-    return status;
+    return this->getStatus();
 }
 void Facility::setStatus(FacilityStatus status)
 {
