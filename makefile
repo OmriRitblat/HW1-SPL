@@ -4,7 +4,7 @@ all: clean compile main
 # Rule to link the object files and create the executable
 main: 
 	g++ -Iinclude bin/*.o -o bin/simulation
-	./bin/simulation config_file.txt
+#	./bin/simulation config_file.txt
 
 # Rule to compile the source files into object files
 compile:
