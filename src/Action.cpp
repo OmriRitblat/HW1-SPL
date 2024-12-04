@@ -219,6 +219,7 @@ void ChangePlanPolicy::act(Simulation &simulation)
         {
             simulation.getPlan(planId).setSelectionPolicy(policy);
         }
+        delete policy;
     }
     else
     {
