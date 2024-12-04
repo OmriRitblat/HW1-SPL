@@ -104,6 +104,7 @@ void AddPlan::act(Simulation &simulation)
 AddPlan::~AddPlan()
 {
     delete policy;
+    policy = nullptr;
 }
 const string AddPlan::toString() const
 {
@@ -220,6 +221,7 @@ void ChangePlanPolicy::act(Simulation &simulation)
             simulation.getPlan(planId).setSelectionPolicy(policy);
         }
         delete policy;
+        policy=nullptr;
     }
     else
     {

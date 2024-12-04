@@ -53,11 +53,14 @@ SettlementType Settlement::getSettlememtType(const string s)
 const unsigned int Settlement::maxPacilities() const
 {
     int maxPacil = 0;
-    if (type == SettlementType::CITY)
+    if (type == SettlementType::CITY){
         maxPacil = 2;
-    else if (type == SettlementType::VILLAGE)
+    }
+    else if (type == SettlementType::VILLAGE){
         maxPacil = 1;
-    else if (type == SettlementType::METROPOLIS)
+    }
+    else if (type == SettlementType::METROPOLIS){
         maxPacil = 3;
+    }
     return maxPacil;
 }

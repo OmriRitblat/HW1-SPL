@@ -11,6 +11,7 @@ Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *sele
 Plan::~Plan()
 {
     delete selectionPolicy;
+    selectionPolicy=nullptr;
     for (Facility *facility : facilities)
     {
         delete facility;

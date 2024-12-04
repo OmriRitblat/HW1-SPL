@@ -89,31 +89,39 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
 
 Simulation &Simulation::operator=(const Simulation &other)
 {
-    if (this == &other)
+    if (this == &other){
         return *this;
-    for (auto action : actionsLog)
-        delete action;
+    }
+    
+     for (auto action : actionsLog){
+         delete action;
+     }
     actionsLog.clear();
 
-    for (auto settlement : settlements)
-        delete settlement;
+     for (auto settlement : settlements){
+         delete settlement;
+     }
     settlements.clear();
 
     plans.clear();
     facilitiesOptions.clear();
 
     // Copy data from 'other'
-    for (const auto action : other.actionsLog)
+    for (const auto action : other.actionsLog){
         actionsLog.push_back(action->clone());
+    }
 
-    for (const auto settlement : other.settlements)
+    for (const auto settlement : other.settlements){
         settlements.push_back(settlement->clone());
+    }
 
-    for (const auto &plan : other.plans)
+    for (const auto &plan : other.plans){
         plans.push_back(plan);
+    }
 
-    for (const auto &facility : other.facilitiesOptions)
+    for (const auto &facility : other.facilitiesOptions){
         facilitiesOptions.push_back(facility);
+    }
 
     isRunning = other.isRunning;
     planCounter = other.planCounter;
