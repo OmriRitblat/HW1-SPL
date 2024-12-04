@@ -1,0 +1,31 @@
+settlement adi 0
+settlement adi 1
+settlement omri 2
+plan adi eco
+plan adi eco
+plan adi eco
+plan adi bal
+plan omri sub
+plan omri nav
+step 3
+planStatus 0
+planStatus 1
+planStatus 2
+planStatus 3
+planStatus 4
+planStatus 5
+backup
+step 2
+log
+restore
+log
+changePolicy 0 bal
+step 1
+plaStatus 0
+changePolicy 0 nav
+step 1
+plaStatus 0
+backup
+log
+close
+
