@@ -103,7 +103,9 @@ void AddPlan::act(Simulation &simulation)
 }
 AddPlan::~AddPlan()
 {
+    if(policy!=nullptr){
     delete policy;
+    }
     policy = nullptr;
 }
 const string AddPlan::toString() const
@@ -114,7 +116,9 @@ AddPlan *AddPlan::clone() const
 {
     return new AddPlan(*this);
 }
-
+AddPlan::AddPlan(const AddPlan& p):settlementName(p.settlementName),selectionPolicy(p.selectionPolicy){
+    policy = p.policy->clone();
+}
 AddSettlement::AddSettlement(const string &settlementName, SettlementType settlementType) : BaseAction(), settlementName(settlementName), settlementType(settlementType)
 {
 }
@@ -281,7 +285,7 @@ void BackupSimulation::act(Simulation &simulation)
     {
         delete ::backup;
     }
-    ::backup = new Simulation(simulation);
+    backup = simulation.clone();
 }
 BackupSimulation *BackupSimulation::clone() const
 {
@@ -299,7 +303,7 @@ void RestoreSimulation::act(Simulation &simulation)
 {
     if (backup!=nullptr)
     {
-        simulation = *(::backup);
+        simulation = *(backup);
     }
     else
     {

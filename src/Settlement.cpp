@@ -5,8 +5,20 @@
 using std::string;
 using std::vector;
 
-Settlement::Settlement(const string &name, SettlementType type) : name(name), type(type)
+Settlement::Settlement(const string &name, SettlementType type) : name(name)
 {
+   SettlementType t;
+    if (type == SettlementType::CITY)
+    {
+        t=SettlementType::CITY;
+    }
+    else if(type == SettlementType::VILLAGE){
+        t=SettlementType::VILLAGE;
+    }
+    else{
+        t=SettlementType::METROPOLIS;
+    }
+    this->type=t; 
 }
 const string &Settlement::getName() const
 {
@@ -15,7 +27,18 @@ const string &Settlement::getName() const
 
 Settlement *Settlement::clone() const
 {
-    return new Settlement(name, type);
+    SettlementType t;
+    if (this->type == SettlementType::CITY)
+    {
+        t=SettlementType::CITY;
+    }
+    else if(this->type == SettlementType::VILLAGE){
+        t=SettlementType::VILLAGE;
+    }
+    else{
+        t=SettlementType::METROPOLIS;
+    }
+    return new Settlement(name, t);
 }
 SettlementType Settlement::getType() const
 {

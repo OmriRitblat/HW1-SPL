@@ -12,6 +12,24 @@ using namespace std;
 Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
+Simulation* Simulation::clone() const{
+    Simulation* s=new Simulation(this->isRunning,this->planCounter);
+    for (BaseAction* b:actionsLog)
+    {
+        s->actionsLog.push_back(b->clone());
+    }
+    for (Plan p:plans)
+    {
+        s->plans.push_back(p);
+    }
+    for(Settlement* se:settlements){
+        s->settlements.push_back(se->clone());
+    }
+    for(FacilityType f:facilitiesOptions){
+        s->facilitiesOptions.push_back(f);
+    }
+    return s;
+}
 Simulation::Simulation(const Simulation &other):isRunning(other.isRunning),planCounter(other.planCounter){
     for (BaseAction* b:other.actionsLog)
     {
@@ -98,14 +116,16 @@ Simulation &Simulation::operator=(const Simulation &other)
      }
     actionsLog.clear();
 
-     for (auto settlement : settlements){
-         delete settlement;
-     }
-    settlements.clear();
-
-    plans.clear();
     facilitiesOptions.clear();
+    for (auto settlement : settlements){
+        if(settlement!=nullptr){
+            delete settlement;
+            settlement=nullptr;
+        }
 
+     }
+    plans.clear();
+    settlements.clear();
     // Copy data from 'other'
     for (const auto action : other.actionsLog){
         actionsLog.push_back(action->clone());
@@ -118,7 +138,6 @@ Simulation &Simulation::operator=(const Simulation &other)
     for (const auto &plan : other.plans){
         plans.push_back(plan);
     }
-
     for (const auto &facility : other.facilitiesOptions){
         facilitiesOptions.push_back(facility);
     }
@@ -318,8 +337,8 @@ Settlement &Simulation::getSettlement(const string &settlementName)
             return *s;
         }
     }
-    Settlement *s = new Settlement("ERROR", SettlementType::CITY);
-    return *s;
+    // Settlement *s = new Settlement("ERROR", SettlementType::CITY);
+    // return *s;
 }
 Plan &Simulation::getPlan(const int planID)
 {
@@ -341,14 +360,20 @@ Simulation::~Simulation()
 {
     for (BaseAction *b : actionsLog)
     {
+        if(b!=nullptr){
         delete b;
+        }
     }
     actionsLog.clear();
     for (Settlement *s : settlements)
     {
+        if(s!=nullptr){
         delete s;
+        s=nullptr;
+        }
     }
     settlements.clear();
+    plans.clear();
 }
 
 void Simulation::open()

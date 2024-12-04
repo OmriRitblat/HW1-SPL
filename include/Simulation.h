@@ -24,6 +24,7 @@ public:
     Simulation& operator=(const Simulation &&other);
     Simulation(const Simulation &&other);
 
+    Simulation* clone() const;
     void start();
     void addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy);
     void addAction(BaseAction *action);
