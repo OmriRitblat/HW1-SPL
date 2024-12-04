@@ -55,7 +55,7 @@ public:
     void act(Simulation &simulation) override;
     const string toString() const override;
     AddPlan *clone() const override;
-    ~AddPlan();
+    ~AddPlan() override;
 
 private:
     const string settlementName;
