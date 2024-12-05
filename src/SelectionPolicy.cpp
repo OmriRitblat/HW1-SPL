@@ -1,10 +1,10 @@
 
 #include <vector>
 #include "SelectionPolicy.h"
-#include <algorithm> 
-#include <cmath>      
-using std::vector;
+#include <algorithm>
+#include <cmath>
 using std::max;
+using std::vector;
 
 NaiveSelection::NaiveSelection() : SelectionPolicy(), lastSelectedIndex(0) {}
 NaiveSelection::NaiveSelection(const NaiveSelection &n) : SelectionPolicy(), lastSelectedIndex(n.lastSelectedIndex)
@@ -17,7 +17,7 @@ const FacilityType &NaiveSelection::selectFacility(const vector<FacilityType> &f
         lastSelectedIndex = 0;
     }
     lastSelectedIndex++;
-    return facilitiesOptions[lastSelectedIndex-1];
+    return facilitiesOptions[lastSelectedIndex - 1];
 }
 const string NaiveSelection::toString() const
 {
@@ -34,8 +34,8 @@ SelectionPolicyType NaiveSelection::getType() const
 BalancedSelection::BalancedSelection(int LifeQualityScore, int EconomyScore, int EnvironmentScore) : SelectionPolicy(), LifeQualityScore(LifeQualityScore), EconomyScore(EconomyScore), EnvironmentScore(EnvironmentScore) {}
 const FacilityType &BalancedSelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    int d_min = INT32_MAX, life, economy, enviroment, min_index, lifeFinal,ecoFinal,envFinal;
-    for (int i=0;i<facilitiesOptions.size();i++)
+    int d_min = INT32_MAX, life, economy, enviroment, min_index, lifeFinal, ecoFinal, envFinal;
+    for (unsigned int i = 0; i < facilitiesOptions.size(); i++)
     {
         life = facilitiesOptions[i].getLifeQualityScore() + LifeQualityScore;
         economy = facilitiesOptions[i].getEconomyScore() + EconomyScore;
@@ -43,18 +43,19 @@ const FacilityType &BalancedSelection::selectFacility(const vector<FacilityType>
         int diff1 = std::abs(life - economy);
         int diff2 = std::abs(economy - enviroment);
         int diff3 = std::abs(life - enviroment);
-        int max=std::max({diff1, diff2, diff3});
-        if(d_min>max){
+        int max = std::max({diff1, diff2, diff3});
+        if (d_min > max)
+        {
             d_min = max;
             min_index = i;
-            lifeFinal=life;
-            ecoFinal=economy;
-            envFinal=enviroment;
+            lifeFinal = life;
+            ecoFinal = economy;
+            envFinal = enviroment;
         }
     }
-    LifeQualityScore=lifeFinal;
-    EconomyScore=ecoFinal;
-    EnvironmentScore=envFinal;
+    LifeQualityScore = lifeFinal;
+    EconomyScore = ecoFinal;
+    EnvironmentScore = envFinal;
     return facilitiesOptions[min_index];
 }
 const string BalancedSelection::toString() const
@@ -73,13 +74,13 @@ SelectionPolicyType BalancedSelection::getType() const
 {
     return SelectionPolicyType::BALANCE;
 }
-EconomySelection::EconomySelection() :SelectionPolicy(), lastSelectedIndex(0)
+EconomySelection::EconomySelection() : SelectionPolicy(), lastSelectedIndex(0)
 {
 }
 const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    int start =facilitiesOptions.size()-lastSelectedIndex;
-    for(unsigned int i=lastSelectedIndex; i<facilitiesOptions.size();i++)
+    int start = facilitiesOptions.size() - lastSelectedIndex;
+    for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {
         if (facilitiesOptions.size() <= i)
         {
@@ -87,13 +88,15 @@ const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> 
         }
         if (facilitiesOptions[i].getCategory() == FacilityCategory::ECONOMY)
         {
-            lastSelectedIndex=i+1;
+            lastSelectedIndex = i + 1;
             return facilitiesOptions[i];
         }
-        if(i==facilitiesOptions.size()-1){
-            i=0;
+        if (i == facilitiesOptions.size() - 1)
+        {
+            i = 0;
         }
-        if(i==start){
+        if (i == start)
+        {
             break;
         }
     }
@@ -116,27 +119,29 @@ SelectionPolicyType EconomySelection::getType() const
 SustainabilitySelection::SustainabilitySelection() : SelectionPolicy(), lastSelectedIndex(0) {}
 const FacilityType &SustainabilitySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    int start =facilitiesOptions.size()-lastSelectedIndex;
-    for(unsigned int i=lastSelectedIndex; i<facilitiesOptions.size();i++)
+    int start = facilitiesOptions.size() - lastSelectedIndex;
+    for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {
         if (facilitiesOptions.size() <= i)
         {
-            i=0;
+            i = 0;
         }
         if (facilitiesOptions[i].getCategory() == FacilityCategory::ENVIRONMENT)
         {
-            lastSelectedIndex=i+1;
+            lastSelectedIndex = i + 1;
             return facilitiesOptions[i];
         }
-        if(i==facilitiesOptions.size()-1){
-            i=0;
+        if (i == facilitiesOptions.size() - 1)
+        {
+            i = 0;
         }
-        if(i==start){
+        if (i == start)
+        {
             break;
         }
     }
-    }
-const string SustainabilitySelection::toString() const 
+}
+const string SustainabilitySelection::toString() const
 {
     return "env";
 }

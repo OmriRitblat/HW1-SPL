@@ -39,14 +39,20 @@ Simulation::Simulation(const Simulation &other):isRunning(other.isRunning),planC
     {
         settlements.push_back(s->clone());
     }
-    for (Plan p:other.plans)
-    {
-        plans.push_back(p);
-    }
     for (FacilityType f:other.facilitiesOptions)
     {
         facilitiesOptions.push_back(f);
     }
+    for (Plan p:other.plans)
+    {
+        Settlement *s;
+        for(int i=0;i<settlements.size();i++){
+            if(settlements[i]->getName()==p.getSettlementName())
+                s=settlements[i];
+        }
+        plans.push_back(Plan(*s,p,facilitiesOptions));
+    }
+    
 }
 
 Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(), plans(), settlements(), facilitiesOptions()
@@ -134,13 +140,20 @@ Simulation &Simulation::operator=(const Simulation &other)
     for (const auto settlement : other.settlements){
         settlements.push_back(settlement->clone());
     }
-
-    for (const auto &plan : other.plans){
-        plans.push_back(plan);
-    }
     for (const auto &facility : other.facilitiesOptions){
         facilitiesOptions.push_back(facility);
     }
+
+    for (Plan p:other.plans)
+    {
+        Settlement *s;
+        for(int i=0;i<settlements.size();i++){
+            if(settlements[i]->getName()==p.getSettlementName())
+                s=settlements[i];
+        }
+        plans.push_back(Plan(*s,p,facilitiesOptions));
+    }
+    
 
     isRunning = other.isRunning;
     planCounter = other.planCounter;

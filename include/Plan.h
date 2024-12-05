@@ -15,6 +15,7 @@ class Plan
 {
 public:
     Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions);
+    Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType> facilityOptions);
     // rule of 3
     ~Plan();
     Plan();
@@ -36,6 +37,7 @@ public:
     const vector<Facility *> &getFacilities() const;
     const int getId() const;
     const SelectionPolicy *getSelectionPolicy() const;
+    const string getSettlementName() const;
 
     // setters
     void setSelectionPolicy(SelectionPolicy *selectionPolicy);

@@ -7,11 +7,14 @@ using namespace std;
 Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
+Plan::Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType> facilityOptions) : Plan(other.plan_id, settlement, other.selectionPolicy->clone(),facilityOptions)
+{
+}
 
 Plan::~Plan()
 {
     delete selectionPolicy;
-    selectionPolicy=nullptr;
+    selectionPolicy = nullptr;
     for (Facility *facility : facilities)
     {
         delete facility;
@@ -23,6 +26,10 @@ Plan::~Plan()
         delete facility;
     }
     underConstruction.clear();
+}
+const string Plan::getSettlementName() const
+{
+    return this->settlement.getName();
 }
 Plan::Plan(const Plan &other) : Plan(other.plan_id, other.settlement, nullptr, other.facilityOptions)
 {

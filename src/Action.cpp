@@ -281,11 +281,11 @@ BackupSimulation::BackupSimulation()
 }
 void BackupSimulation::act(Simulation &simulation)
 {
-    if (::backup != nullptr)
+    if (backup != nullptr)
     {
-        delete ::backup;
+        delete backup;
     }
-    backup = simulation.clone();
+    backup = new Simulation(simulation);
 }
 BackupSimulation *BackupSimulation::clone() const
 {
