@@ -7,7 +7,7 @@ using namespace std;
 Plan::Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions) : plan_id(planId), settlement(settlement), selectionPolicy(selectionPolicy), status(PlanStatus::AVALIABLE), facilities(), underConstruction(), facilityOptions(facilityOptions), life_quality_score(0), economy_score(0), environment_score(0)
 {
 }
-Plan::Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType> facilityOptions) : plan_id(other.plan_id), settlement(settlement), status(other.status), facilityOptions(facilityOptions), life_quality_score(other.life_quality_score), economy_score(other.economy_score), environment_score(other.environment_score)
+Plan::Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType> facilityOptions) : plan_id(other.plan_id), settlement(settlement),selectionPolicy(nullptr), status(other.status),facilities(),underConstruction(), facilityOptions(facilityOptions), life_quality_score(other.life_quality_score), economy_score(other.economy_score), environment_score(other.environment_score)
 {
     selectionPolicy = other.selectionPolicy->clone();
     for (Facility *f : other.facilities)

@@ -362,8 +362,8 @@ Settlement &Simulation::getSettlement(const string &settlementName)
             return *s;
         }
     }
-    // Settlement *s = new Settlement("ERROR", SettlementType::CITY);
-    // return *s;
+    Settlement *s = new Settlement("ERROR", SettlementType::CITY);
+    return *s;
 }
 Plan &Simulation::getPlan(const int planID)
 {

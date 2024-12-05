@@ -5,7 +5,7 @@
 using std::string;
 using std::vector;
 
-Settlement::Settlement(const string &name, SettlementType type) : name(name)
+Settlement::Settlement(const string &name, SettlementType type) : name(name),type(SettlementType::CITY)
 {
    SettlementType t;
     if (type == SettlementType::CITY)
