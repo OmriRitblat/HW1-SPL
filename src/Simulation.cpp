@@ -12,47 +12,51 @@ using namespace std;
 Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
-Simulation* Simulation::clone() const{
-    Simulation* s=new Simulation(this->isRunning,this->planCounter);
-    for (BaseAction* b:actionsLog)
+Simulation *Simulation::clone() const
+{
+    Simulation *s = new Simulation(this->isRunning, this->planCounter);
+    for (BaseAction *b : actionsLog)
     {
         s->actionsLog.push_back(b->clone());
     }
-    for (Plan p:plans)
+    for (Plan p : plans)
     {
         s->plans.push_back(p);
     }
-    for(Settlement* se:settlements){
+    for (Settlement *se : settlements)
+    {
         s->settlements.push_back(se->clone());
     }
-    for(FacilityType f:facilitiesOptions){
+    for (FacilityType f : facilitiesOptions)
+    {
         s->facilitiesOptions.push_back(f);
     }
     return s;
 }
-Simulation::Simulation(const Simulation &other):isRunning(other.isRunning),planCounter(other.planCounter){
-    for (BaseAction* b:other.actionsLog)
+Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter)
+{
+    for (BaseAction *b : other.actionsLog)
     {
         actionsLog.push_back(b->clone());
     }
-    for (Settlement* s:other.settlements)
+    for (Settlement *s : other.settlements)
     {
         settlements.push_back(s->clone());
     }
-    for (FacilityType f:other.facilitiesOptions)
+    for (FacilityType f : other.facilitiesOptions)
     {
-        facilitiesOptions.push_back(f);
+        facilitiesOptions.push_back(FacilityType(f));
     }
-    for (Plan p:other.plans)
+    for (Plan p : other.plans)
     {
         Settlement *s;
-        for(int i=0;i<settlements.size();i++){
-            if(settlements[i]->getName()==p.getSettlementName())
-                s=settlements[i];
+        for (int i = 0; i < settlements.size(); i++)
+        {
+            if (settlements[i]->getName() == p.getSettlementName())
+                s = settlements[i];
         }
-        plans.push_back(Plan(*s,p,facilitiesOptions));
+        plans.push_back(Plan(*s, p, facilitiesOptions));
     }
-    
 }
 
 Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(), plans(), settlements(), facilitiesOptions()
@@ -113,59 +117,65 @@ Simulation::Simulation(const string &configFilePath) : isRunning(true), planCoun
 
 Simulation &Simulation::operator=(const Simulation &other)
 {
-    if (this == &other){
+    if (this == &other)
+    {
         return *this;
     }
-    
-     for (auto action : actionsLog){
-         delete action;
-     }
-    actionsLog.clear();
 
-    facilitiesOptions.clear();
-    for (auto settlement : settlements){
-        if(settlement!=nullptr){
+    for (auto action : actionsLog)
+    {
+        delete action;
+    }
+    for (auto settlement : settlements)
+    {
+        if (settlement != nullptr)
+        {
             delete settlement;
-            settlement=nullptr;
+            settlement = nullptr;
         }
-
-     }
+    }
+    actionsLog.clear();
+    facilitiesOptions.clear();
     plans.clear();
     settlements.clear();
+
     // Copy data from 'other'
-    for (const auto action : other.actionsLog){
+    for (const auto action : other.actionsLog)
+    {
         actionsLog.push_back(action->clone());
     }
 
-    for (const auto settlement : other.settlements){
+    for (const auto settlement : other.settlements)
+    {
         settlements.push_back(settlement->clone());
     }
-    for (const auto &facility : other.facilitiesOptions){
-        facilitiesOptions.push_back(facility);
+    for (const auto &facility : other.facilitiesOptions)
+    {
+        facilitiesOptions.push_back(FacilityType(facility));
     }
 
-    for (Plan p:other.plans)
+    for (Plan p : other.plans)
     {
         Settlement *s;
-        for(int i=0;i<settlements.size();i++){
-            if(settlements[i]->getName()==p.getSettlementName())
-                s=settlements[i];
+        for (int i = 0; i < settlements.size(); i++)
+        {
+            if (settlements[i]->getName() == p.getSettlementName())
+                s = settlements[i];
         }
-        plans.push_back(Plan(*s,p,facilitiesOptions));
+        plans.push_back(Plan(*s, p, facilitiesOptions));
+        s=nullptr;
     }
-    
 
     isRunning = other.isRunning;
     planCounter = other.planCounter;
     return *this;
 }
 
-
 void Simulation::start()
 {
     string input;
     cout << "The simulation has started" << endl;
-    bool suc=true;
+    bool suc = true;
     while (isRunning)
     {
         std::getline(std::cin, input);
@@ -176,11 +186,11 @@ void Simulation::start()
             int numberOfSteps = std::stoi(words[1]);
             b = new SimulateStep(numberOfSteps);
         }
-        else if ((words[0] == "plan") && (words.size()==3))
+        else if ((words[0] == "plan") && (words.size() == 3))
         {
             b = new AddPlan(words[1], words[2]);
         }
-        else if (words[0] == "settlement"&& (words.size()==3))
+        else if (words[0] == "settlement" && (words.size() == 3))
         {
             SettlementType setType;
             bool SettlementTypeEx = false;
@@ -208,7 +218,7 @@ void Simulation::start()
                 b = new AddSettlement(words[1], setType);
             }
         }
-        else if (words[0] == "facility" && (words.size()==7))
+        else if (words[0] == "facility" && (words.size() == 7))
         {
             FacilityCategory c;
             bool CategoryEx = false;
@@ -240,15 +250,15 @@ void Simulation::start()
                 b = new AddFacility(words[1], c, price, life_impact, eco_impact, env_impact);
             }
         }
-        else if (words[0] == "planStatus"&& (words.size()==2))
+        else if (words[0] == "planStatus" && (words.size() == 2))
         {
             b = new PrintPlanStatus(std::stoi(words[1]));
         }
-        else if (words[0] == "changePolicy"&& (words.size()==3))
+        else if (words[0] == "changePolicy" && (words.size() == 3))
         {
             b = new ChangePlanPolicy(std::stoi(words[1]), words[2]);
         }
-        else if (words[0] == "planStatus"&& (words.size()==2))
+        else if (words[0] == "planStatus" && (words.size() == 2))
         {
             b = new PrintPlanStatus(std::stoi(words[1]));
         }
@@ -270,10 +280,11 @@ void Simulation::start()
         }
         else
         {
-            suc==false;
+            suc == false;
             cout << "Wrong Syntax" << endl;
         }
-        if(suc){
+        if (suc)
+        {
             b->act(*this);
             addAction(b);
         }
@@ -281,8 +292,8 @@ void Simulation::start()
 }
 void Simulation::addPlan(const Settlement &settlement, SelectionPolicy *selectionPolicy)
 {
-    SelectionPolicy* t=selectionPolicy->clone();
-    plans.push_back(Plan(planCounter, settlement, t , facilitiesOptions));
+    SelectionPolicy *t = selectionPolicy->clone();
+    plans.push_back(Plan(planCounter, settlement, t, facilitiesOptions));
     planCounter++;
 }
 
@@ -359,7 +370,7 @@ Plan &Simulation::getPlan(const int planID)
 }
 void Simulation::step()
 {
-    for(int i=0;i<plans.size();i++)
+    for (int i = 0; i < plans.size(); i++)
         plans[i].step();
 }
 void Simulation::close()
@@ -372,16 +383,18 @@ Simulation::~Simulation()
 {
     for (BaseAction *b : actionsLog)
     {
-        if(b!=nullptr){
-        delete b;
+        if (b != nullptr)
+        {
+            delete b;
         }
     }
     actionsLog.clear();
     for (Settlement *s : settlements)
     {
-        if(s!=nullptr){
-        delete s;
-        s=nullptr;
+        if (s != nullptr)
+        {
+            delete s;
+            s = nullptr;
         }
     }
     settlements.clear();
