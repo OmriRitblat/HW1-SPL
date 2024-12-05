@@ -33,7 +33,7 @@ Simulation *Simulation::clone() const
     }
     return s;
 }
-Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter)
+Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter),actionsLog(),plans(),settlements(),facilitiesOptions()
 {
     for (BaseAction *b : other.actionsLog)
     {
@@ -50,12 +50,13 @@ Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), pl
     for (Plan p : other.plans)
     {
         Settlement *s;
-        for (int i = 0; i < settlements.size(); i++)
+        for (unsigned int i = 0; i < settlements.size(); i++)
         {
             if (settlements[i]->getName() == p.getSettlementName())
                 s = settlements[i];
         }
         plans.push_back(Plan(*s, p, facilitiesOptions));
+        s=nullptr;
     }
 }
 
@@ -157,7 +158,7 @@ Simulation &Simulation::operator=(const Simulation &other)
     for (Plan p : other.plans)
     {
         Settlement *s;
-        for (int i = 0; i < settlements.size(); i++)
+        for (unsigned int i = 0; i < settlements.size(); i++)
         {
             if (settlements[i]->getName() == p.getSettlementName())
                 s = settlements[i];
@@ -280,7 +281,7 @@ void Simulation::start()
         }
         else
         {
-            suc == false;
+            suc = false;
             cout << "Wrong Syntax" << endl;
         }
         if (suc)
@@ -370,7 +371,7 @@ Plan &Simulation::getPlan(const int planID)
 }
 void Simulation::step()
 {
-    for (int i = 0; i < plans.size(); i++)
+    for (unsigned int i = 0; i < plans.size(); i++)
         plans[i].step();
 }
 void Simulation::close()

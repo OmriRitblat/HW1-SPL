@@ -116,8 +116,7 @@ AddPlan *AddPlan::clone() const
 {
     return new AddPlan(*this);
 }
-AddPlan::AddPlan(const AddPlan& p):settlementName(p.settlementName),selectionPolicy(p.selectionPolicy){
-    policy = p.policy->clone();
+AddPlan::AddPlan(const AddPlan& p):settlementName(p.settlementName),selectionPolicy(p.selectionPolicy),policy(p.policy->clone()){
 }
 AddSettlement::AddSettlement(const string &settlementName, SettlementType settlementType) : BaseAction(), settlementName(settlementName), settlementType(settlementType)
 {

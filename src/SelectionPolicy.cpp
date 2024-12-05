@@ -79,7 +79,7 @@ EconomySelection::EconomySelection() : SelectionPolicy(), lastSelectedIndex(0)
 }
 const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    int start = facilitiesOptions.size() - lastSelectedIndex;
+    unsigned int start = facilitiesOptions.size() - lastSelectedIndex;
     for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {
         if (facilitiesOptions.size() <= i)
@@ -95,11 +95,12 @@ const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> 
         {
             i = 0;
         }
-        if (i == start)
+        if ( i == start)
         {
             break;
         }
     }
+    return facilitiesOptions[lastSelectedIndex];
 }
 const string EconomySelection::toString() const
 {
@@ -119,7 +120,7 @@ SelectionPolicyType EconomySelection::getType() const
 SustainabilitySelection::SustainabilitySelection() : SelectionPolicy(), lastSelectedIndex(0) {}
 const FacilityType &SustainabilitySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    int start = facilitiesOptions.size() - lastSelectedIndex;
+    unsigned int start = facilitiesOptions.size() - lastSelectedIndex;
     for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {
         if (facilitiesOptions.size() <= i)
@@ -135,11 +136,12 @@ const FacilityType &SustainabilitySelection::selectFacility(const vector<Facilit
         {
             i = 0;
         }
-        if (i == start)
+        if ( i == start)
         {
             break;
         }
     }
+    return facilitiesOptions[lastSelectedIndex];
 }
 const string SustainabilitySelection::toString() const
 {

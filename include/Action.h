@@ -57,6 +57,7 @@ public:
     const string toString() const override;
     AddPlan *clone() const override;
     ~AddPlan() override;
+    
 
 private:
     const string settlementName;
