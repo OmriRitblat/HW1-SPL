@@ -136,10 +136,10 @@ const FacilityType &SustainabilitySelection::selectFacility(const vector<Facilit
         {
             i = 0;
         }
-        if ( i == start)
-        {
-            break;
-        }
+         if ( i == start)
+         {
+             break;
+         }
     }
     return facilitiesOptions[lastSelectedIndex];
 }

@@ -89,6 +89,7 @@ AddPlan::AddPlan(const string &settlementName, const string &selectionPolicy) : 
         BaseAction::setStatusToError();
     }
 }
+
 void AddPlan::act(Simulation &simulation)
 {
     if (!simulation.isSettlementExists(settlementName) || BaseAction::getStatus() == ActionStatus::ERROR)

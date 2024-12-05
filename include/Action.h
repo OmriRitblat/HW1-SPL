@@ -53,6 +53,7 @@ class AddPlan : public BaseAction
 public:
     AddPlan(const string &settlementName, const string &selectionPolicy);
     AddPlan(const AddPlan& p);
+    AddPlan& operator=(const AddPlan &other);
     void act(Simulation &simulation) override;
     const string toString() const override;
     AddPlan *clone() const override;
