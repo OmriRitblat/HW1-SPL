@@ -12,28 +12,28 @@ using namespace std;
 Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
-Simulation *Simulation::clone() const
-{
-    Simulation *s = new Simulation(this->isRunning, this->planCounter);
-    for (BaseAction *b : actionsLog)
-    {
-        s->actionsLog.push_back(b->clone());
-    }
-    for (Plan p : plans)
-    {
-        s->plans.push_back(p);
-    }
-    for (Settlement *se : settlements)
-    {
-        s->settlements.push_back(se->clone());
-    }
-    for (FacilityType f : facilitiesOptions)
-    {
-        s->facilitiesOptions.push_back(f);
-    }
-    return s;
-}
-Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter),actionsLog(),plans(),settlements(),facilitiesOptions()
+// Simulation *Simulation::clone() const
+// {
+//     Simulation *s = new Simulation(this->isRunning, this->planCounter);
+//     for (BaseAction *b : actionsLog)
+//     {
+//         s->actionsLog.push_back(b->clone());
+//     }
+//     for (Plan p : plans)
+//     {
+//         s->plans.push_back(p);
+//     }
+//     for (Settlement *se : settlements)
+//     {
+//         s->settlements.push_back(se->clone());
+//     }
+//     for (FacilityType f : facilitiesOptions)
+//     {
+//         s->facilitiesOptions.push_back(f);
+//     }
+//     return s;
+// }
+Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
     for (BaseAction *b : other.actionsLog)
     {
@@ -56,7 +56,7 @@ Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), pl
                 s = settlements[i];
         }
         plans.push_back(Plan(*s, p, facilitiesOptions));
-        s=nullptr;
+        s = nullptr;
     }
 }
 
@@ -164,7 +164,60 @@ Simulation &Simulation::operator=(const Simulation &other)
                 s = settlements[i];
         }
         plans.push_back(Plan(*s, p, facilitiesOptions));
-        s=nullptr;
+        s = nullptr;
+    }
+
+    isRunning = other.isRunning;
+    planCounter = other.planCounter;
+    return *this;
+}
+Simulation &Simulation::operator=(Simulation &&other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    for (auto action : actionsLog)
+    {
+        delete action;
+    }
+    for (auto settlement : settlements)
+    {
+        if (settlement != nullptr)
+        {
+            delete settlement;
+            settlement = nullptr;
+        }
+    }
+    actionsLog.clear();
+    facilitiesOptions.clear();
+    plans.clear();
+    settlements.clear();
+
+    for(unsigned int i=0;i<other.actionsLog.size();i++){
+        actionsLog.push_back(other.actionsLog[i]);
+        other.actionsLog[i]=nullptr;
+    }
+    for(unsigned int i=0;i<other.settlements.size();i++){
+        settlements.push_back(other.settlements[i]);
+        other.settlements[i]=nullptr;
+    }
+    for (const auto &facility : other.facilitiesOptions)
+    {
+        facilitiesOptions.push_back(FacilityType(facility));
+    }
+
+    for (Plan p : other.plans)
+    {
+        Settlement *s;
+        for (unsigned int i = 0; i < settlements.size(); i++)
+        {
+            if (settlements[i]->getName() == p.getSettlementName())
+                s = settlements[i];
+        }
+        plans.push_back(Plan(*s, p, facilitiesOptions));
+        s = nullptr;
     }
 
     isRunning = other.isRunning;
@@ -354,7 +407,6 @@ bool Simulation::isFacilityExists(const string &facilityName)
 }
 Settlement &Simulation::getSettlement(const string &settlementName)
 {
-
     for (Settlement *s : settlements)
     {
         if (s->getName() == settlementName)

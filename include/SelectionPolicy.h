@@ -9,7 +9,7 @@ enum class SelectionPolicyType
     NAIVE,
     ECO,
     ENV
-};
+}; 
 class SelectionPolicy {
     public:
         virtual const FacilityType& selectFacility(const vector<FacilityType>& facilitiesOptions) = 0;

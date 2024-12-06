@@ -14,7 +14,7 @@ const string &FacilityType::getName() const
 int FacilityType::getCost() const
 {
     return price;
-}
+} 
 int FacilityType::getLifeQualityScore() const
 {
     return lifeQuality_score;

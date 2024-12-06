@@ -22,13 +22,15 @@ class FacilityType
 public:
     FacilityType(const string &name, const FacilityCategory category, const int price, const int lifeQuality_score, const int economy_score, const int environment_score);
     FacilityType(const FacilityType &facility);
+    //getters
     const string &getName() const;
     int getCost() const;
     int getLifeQualityScore() const;
     int getEnvironmentScore() const;
     int getEconomyScore() const;
     FacilityCategory getCategory() const;
-    // not in use
+
+    // enum get Values
     static const string getCategoryString(FacilityCategory fCategory);
     static FacilityCategory getFacilityCategory(const string s);
 
@@ -47,6 +49,7 @@ class Facility : public FacilityType
 public:
     Facility(const string &name, const string &settlementName, const FacilityCategory category, const int price, const int lifeQuality_score, const int economy_score, const int environment_score);
     Facility(const FacilityType &type, const string &settlementName);
+    Facility *clone() const;
     const string &getSettlementName() const;
     const int getTimeLeft() const;
     FacilityStatus step();
@@ -54,8 +57,7 @@ public:
     const FacilityStatus &getStatus() const;
     const string toString() const;
     const string getStatusString() const;
-    Facility *clone() const;
-
+    
 private:
     const string settlementName;
     FacilityStatus status;

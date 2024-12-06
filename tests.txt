@@ -18,10 +18,10 @@ restore
 log
 changePolicy 0 bal
 step 1
-plaStatus 0
+planStatus 0
 changePolicy 0 nav
 step 1
-plaStatus 0
+planStatus 0
 backup
 log
 close

@@ -17,7 +17,7 @@ Settlement::Settlement(const string &name, SettlementType type) : name(name),typ
     }
     else{
         t=SettlementType::METROPOLIS;
-    }
+    } 
     this->type=t; 
 }
 const string &Settlement::getName() const

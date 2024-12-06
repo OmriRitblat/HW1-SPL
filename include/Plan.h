@@ -12,15 +12,15 @@ enum class PlanStatus
 };
 
 class Plan
-{
+{ 
 public:
     Plan(const int planId, const Settlement &settlement, SelectionPolicy *selectionPolicy, const vector<FacilityType> &facilityOptions);
-    Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType> facilityOptions);
+    Plan(const Settlement &settlement, const Plan &other, const vector<FacilityType>& facilityOptions);
     // rule of 3
     ~Plan();
     Plan();
     Plan(const Plan &other);
-    void operator=(const Plan &other) = delete;
+    Plan operator=(const Plan &other) = delete;
 
     // rule of 5
     Plan(Plan &&other);
@@ -45,12 +45,8 @@ public:
     // other functions
     void step();
     void addFacility(Facility *facility);
-    void NewFunction(Facility *facility);
     const string toString() const;
     const string sumUpSTotring() const;
-    //===================
-    // should it be private??
-    const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
     void updateStatus();
     void updateScore(const Facility *facility);
 
@@ -63,4 +59,7 @@ private:
     vector<Facility *> underConstruction;
     const vector<FacilityType> &facilityOptions;
     int life_quality_score, economy_score, environment_score;
+
+    //functions
+    const int findIndexInVector(const vector<Facility *> &vec, Facility *facility) const;
 };

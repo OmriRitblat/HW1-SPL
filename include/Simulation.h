@@ -21,7 +21,7 @@ public:
     ~Simulation();
 
     // rule of 5
-    Simulation& operator=(const Simulation &&other);
+    Simulation& operator=(Simulation &&other);
     Simulation(const Simulation &&other);
 
     Simulation* clone() const;
