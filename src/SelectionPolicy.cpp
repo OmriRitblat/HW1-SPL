@@ -12,12 +12,14 @@ NaiveSelection::NaiveSelection(const NaiveSelection &n) : SelectionPolicy(), las
 }
 const FacilityType &NaiveSelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
-    if (facilitiesOptions.size() <= (unsigned)lastSelectedIndex)
+    if (facilitiesOptions.size()-1 <= (unsigned)lastSelectedIndex)
     {
         lastSelectedIndex = 0;
     }
-    lastSelectedIndex++;
-    return facilitiesOptions[lastSelectedIndex - 1];
+    else{
+        lastSelectedIndex++;
+    }
+    return facilitiesOptions[lastSelectedIndex];
 }
 const string NaiveSelection::toString() const
 {
@@ -79,6 +81,9 @@ EconomySelection::EconomySelection() : SelectionPolicy(), lastSelectedIndex(0)
 }
 const FacilityType &EconomySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
+    if(lastSelectedIndex >= static_cast<int>(facilitiesOptions.size())) {
+        lastSelectedIndex=0;
+    }
     unsigned int start = facilitiesOptions.size() - lastSelectedIndex;
     for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {
@@ -120,6 +125,9 @@ SelectionPolicyType EconomySelection::getType() const
 SustainabilitySelection::SustainabilitySelection() : SelectionPolicy(), lastSelectedIndex(0) {}
 const FacilityType &SustainabilitySelection::selectFacility(const vector<FacilityType> &facilitiesOptions)
 {
+    if(lastSelectedIndex >= static_cast<int>(facilitiesOptions.size())) {
+        lastSelectedIndex=0;
+    }
     unsigned int start = facilitiesOptions.size() - lastSelectedIndex;
     for (unsigned int i = lastSelectedIndex; i < facilitiesOptions.size(); i++)
     {

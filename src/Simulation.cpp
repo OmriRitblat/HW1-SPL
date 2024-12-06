@@ -12,27 +12,6 @@ using namespace std;
 Simulation::Simulation(bool isRunning, int planCounter) : isRunning(isRunning), planCounter(planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
 }
-// Simulation *Simulation::clone() const
-// {
-//     Simulation *s = new Simulation(this->isRunning, this->planCounter);
-//     for (BaseAction *b : actionsLog)
-//     {
-//         s->actionsLog.push_back(b->clone());
-//     }
-//     for (Plan p : plans)
-//     {
-//         s->plans.push_back(p);
-//     }
-//     for (Settlement *se : settlements)
-//     {
-//         s->settlements.push_back(se->clone());
-//     }
-//     for (FacilityType f : facilitiesOptions)
-//     {
-//         s->facilitiesOptions.push_back(f);
-//     }
-//     return s;
-// }
 Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), planCounter(other.planCounter), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
     for (BaseAction *b : other.actionsLog)
@@ -62,7 +41,6 @@ Simulation::Simulation(const Simulation &other) : isRunning(other.isRunning), pl
 
 Simulation::Simulation(const string &configFilePath) : isRunning(true), planCounter(0), actionsLog(), plans(), settlements(), facilitiesOptions()
 {
-    cout << "configFilePath " << configFilePath << endl;
     std::ifstream file(configFilePath);
     if (!file.is_open())
     {
